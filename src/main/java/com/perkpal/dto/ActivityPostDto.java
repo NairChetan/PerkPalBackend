@@ -1,11 +1,12 @@
 package com.perkpal.dto;
-
 import lombok.Data;
 
 @Data
-public class ActivityDto {
+public class ActivityPostDto {
     private String activityName;
-    private String categoryName;
-    private String categoryDescription;
+    private Long categoryId;
     private int weightagePerHour;
+    private String description;
+    private Long createdBy;
+
 }
