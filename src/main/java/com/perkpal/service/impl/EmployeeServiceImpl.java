@@ -27,7 +27,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto getEmployeeById(Long id) {
         Optional<Employee> employee = employeeRepository.findById(id);
-        return mapper.map(employee,EmployeeDto.class);
+        // Handle the case when the employee is not found
+        if (employee.isPresent()) {
+            return mapper.map(employee.get(), EmployeeDto.class);
+        } else {
+            // Handle the case where the employee is not found
+            return null; // or throw an exception, or return an empty DTO
+        }
     }
 
     @Override

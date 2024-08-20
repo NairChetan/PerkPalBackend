@@ -22,12 +22,6 @@ public class Role {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @CreationTimestamp
-    @Column(name="created_date",updatable = false,nullable = false)
-    private Timestamp createdDate;
-    @UpdateTimestamp
-    @Column(name="updated_date")
-    private Timestamp updatedDate;
     @Column(name = "role_name",nullable = false,unique = true)
     private String roleName;
     @OneToMany(mappedBy = "roleId",cascade = CascadeType.ALL,targetEntity = Employee.class)
