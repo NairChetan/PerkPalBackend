@@ -34,5 +34,4 @@ public class EmployeeController {
                 employeeService.updateEmployeePoints(id, employeeUpdatePointsDto));
     }
 
-
 }

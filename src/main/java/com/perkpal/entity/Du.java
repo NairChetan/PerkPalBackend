@@ -16,10 +16,12 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Du extends BaseEntity{
+public class Du{
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
     @Column(name = "department_name",nullable = false)
     private String departmentName;
-
     @OneToMany(mappedBy = "duId",cascade = CascadeType.ALL,targetEntity = Employee.class)
     private Set<Employee> employees = new HashSet<>();
 }
