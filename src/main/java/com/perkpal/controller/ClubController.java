@@ -1,6 +1,7 @@
 package com.perkpal.controller;
 
 import com.perkpal.dto.ClubDto;
+import com.perkpal.entity.Club;
 import com.perkpal.response.ResponseHandler;
 import com.perkpal.service.ClubService;
 import jakarta.validation.Valid;
@@ -26,6 +27,17 @@ public class ClubController {
     @PostMapping
     public ResponseEntity<ClubDto> createClub(@Valid @RequestBody ClubDto clubDto){
         return new ResponseEntity<>(clubService.createClub(clubDto), HttpStatus.CREATED);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateClub(@PathVariable("id") Long id, @RequestBody Club club) {
+        String response = clubService.updateClub(id, club);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteClub(@PathVariable("id") Long id) {
+        String response = clubService.deleteClub(id);
+        return ResponseEntity.ok(response);
     }
 
 

@@ -37,5 +37,31 @@ public class ClubServiceImpl implements ClubService {
 
     }
 
+    @Override
+    public String updateClub(Long id, Club club) {
+        if (clubRepository.existsById(id)) {
+            club.setId(id);
+            clubRepository.save(club);
+            return "Updated Successfully";
+        } else {
+            return "Club not found";
+        }
+
+    }
+
+
+    @Override
+    public String deleteClub(Long id) {
+        if (clubRepository.existsById(id)) {
+            clubRepository.deleteById(id);
+            return "Deleted Successfully";
+        } else {
+            return "Club not found";
+        }
+
+    }
+
+
+
 
 }
