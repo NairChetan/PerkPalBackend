@@ -20,7 +20,7 @@ public class Participation extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties("participation")
     @JoinColumn(name = "emp_id", referencedColumnName = "id", nullable = false)
-    Employee empId;
+    Employee employee;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties("participationActivitySet")
@@ -43,7 +43,6 @@ public class Participation extends BaseEntity {
     @JsonIgnoreProperties("participationApproved")
     @JoinColumn(name = "approved_by", referencedColumnName = "id")
     Employee approvedBy;
-
     @Column(name = "approval_status", nullable = false)
     private String approvalStatus = "pending";
     @Column(name = "proof_url")
