@@ -1,43 +1,49 @@
 package com.perkpal.controller;
 
 import com.perkpal.dto.CategoryDto;
+import com.perkpal.response.ResponseHandler;
 import com.perkpal.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/api/v1/category")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) {
-        return ResponseEntity.ok(categoryService.createCategory(categoryDto));
+    public ResponseEntity<Object> createCategory(@RequestBody CategoryDto categoryDto) {
+        CategoryDto createdCategory = categoryService.createCategory(categoryDto);
+        return ResponseHandler.responseBuilder("Category created successfully", HttpStatus.CREATED, createdCategory);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
-        return ResponseEntity.ok(categoryService.updateCategory(id, categoryDto));
+    public ResponseEntity<Object> updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
+        CategoryDto updatedCategory = categoryService.updateCategory(id, categoryDto);
+        return ResponseHandler.responseBuilder("Category updated successfully", HttpStatus.OK, updatedCategory);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long id) {
-        return ResponseEntity.ok(categoryService.getCategoryById(id));
+    public ResponseEntity<Object> getCategoryById(@PathVariable Long id) {
+        CategoryDto category = categoryService.getCategoryById(id);
+        return ResponseHandler.responseBuilder("Category retrieved successfully", HttpStatus.OK, category);
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDto>> getAllCategories() {
-        return ResponseEntity.ok(categoryService.getAllCategories());
+    public ResponseEntity<Object> getAllCategories() {
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        return ResponseHandler.responseBuilder("Categories retrieved successfully", HttpStatus.OK, categories);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
+        return ResponseHandler.responseBuilder("Category deleted successfully", HttpStatus.NO_CONTENT, null);
     }
 }

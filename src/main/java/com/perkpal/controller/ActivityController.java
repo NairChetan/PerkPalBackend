@@ -1,7 +1,6 @@
 package com.perkpal.controller;
 
 import com.perkpal.dto.ActivityCateogryPostDto;
-import com.perkpal.dto.ActivityDto;
 import com.perkpal.dto.ActivityPostDto;
 import com.perkpal.response.ResponseHandler;
 import com.perkpal.service.ActivityService;
@@ -16,21 +15,24 @@ import static com.perkpal.constants.Message.REQUESTED_ACTIVITY_DETAILS;
 @RestController
 @RequestMapping("/api/v1/activity")
 public class ActivityController {
+
     @Autowired
     private ActivityService activityService;
+
     @GetMapping
-    public ResponseEntity<Object> getActivities(){
-        return ResponseHandler.responseBuilder(REQUESTED_ACTIVITY_DETAILS, HttpStatus.OK,activityService.getActivity());
+    public ResponseEntity<Object> getActivities() {
+        return ResponseHandler.responseBuilder(REQUESTED_ACTIVITY_DETAILS, HttpStatus.OK, activityService.getActivity());
     }
+
     @PostMapping
-    public ResponseEntity<ActivityPostDto> createActivity(@RequestBody ActivityPostDto activityPostDto){
-        return new ResponseEntity<>(activityService.createActivity(activityPostDto), HttpStatus.CREATED);
+    public ResponseEntity<Object> createActivity(@RequestBody ActivityPostDto activityPostDto) {
+        ActivityPostDto createdActivity = activityService.createActivity(activityPostDto);
+        return ResponseHandler.responseBuilder("Activity created successfully", HttpStatus.CREATED, createdActivity);
     }
+
     @PostMapping("/create-with-category")
-    public ResponseEntity<ActivityCateogryPostDto> createActivityWithCategory(@RequestBody ActivityCateogryPostDto activityCateogryPostDto) {
+    public ResponseEntity<Object> createActivityWithCategory(@RequestBody ActivityCateogryPostDto activityCateogryPostDto) {
         ActivityCateogryPostDto newActivityCategoryPostDto = activityService.createActivityWithCategory(activityCateogryPostDto);
-        return new ResponseEntity<>(newActivityCategoryPostDto, HttpStatus.CREATED);
+        return ResponseHandler.responseBuilder("Activity with category created successfully", HttpStatus.CREATED, newActivityCategoryPostDto);
     }
-
-
 }
