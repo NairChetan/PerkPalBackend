@@ -1,5 +1,6 @@
 package com.perkpal.service.impl;
 
+import com.perkpal.dto.ActivityCateogryPostDto;
 import com.perkpal.dto.ActivityDto;
 import com.perkpal.dto.ActivityPostDto;
 import com.perkpal.entity.Activity;
@@ -52,5 +53,40 @@ public class ActivityServiceImpl implements ActivityService {
         ActivityPostDto newActivityPostDto = mapper.map(newActivity, ActivityPostDto.class);
         return newActivityPostDto;
     }
+    @Override
+    public ActivityCateogryPostDto createActivityWithCategory(ActivityCateogryPostDto activityCateogryPostDto) {
+        Category category;
+
+        // Check if categoryName is provided; if so, create a new Category
+        if (activityCateogryPostDto.getCategoryName() != null && !activityCateogryPostDto.getCategoryName().isEmpty()) {
+            category = new Category();
+            category.setId(null);
+            category.setCategoryName(activityCateogryPostDto.getCategoryName());
+            category.setCreatedBy(activityCateogryPostDto.getCreatedBy());
+            category = categoryRepository.save(category);  // Save the new Category
+        } else {
+            // Handle the scenario where the category should be pre-existing or error out
+            throw new IllegalArgumentException("Category name must be provided to create a new category.");
+        }
+
+        // Create a new Activity instance
+        Activity activity = new Activity();
+        // Map basic fields using the mapper
+        mapper.map(activityCateogryPostDto, activity);
+
+        // Set the new Category entity
+        activity.setCategoryId(category);  // Set the new Category
+
+        // Ensure the createdBy field is set
+        activity.setCreatedBy(activityCateogryPostDto.getCreatedBy());
+        activity.setId(null);  // Ensure this is treated as a new entity
+
+        // Save the new Activity entity
+        Activity newActivity = activityRepository.save(activity);
+
+        // Map the saved Activity back to the DTO
+        return mapper.map(newActivity, ActivityCateogryPostDto.class);
+    }
+
 
 }

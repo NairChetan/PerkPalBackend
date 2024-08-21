@@ -1,5 +1,6 @@
 package com.perkpal.controller;
 
+import com.perkpal.dto.ActivityCateogryPostDto;
 import com.perkpal.dto.ActivityDto;
 import com.perkpal.dto.ActivityPostDto;
 import com.perkpal.response.ResponseHandler;
@@ -25,4 +26,11 @@ public class ActivityController {
     public ResponseEntity<ActivityPostDto> createActivity(@RequestBody ActivityPostDto activityPostDto){
         return new ResponseEntity<>(activityService.createActivity(activityPostDto), HttpStatus.CREATED);
     }
+    @PostMapping("/create-with-category")
+    public ResponseEntity<ActivityCateogryPostDto> createActivityWithCategory(@RequestBody ActivityCateogryPostDto activityCateogryPostDto) {
+        ActivityCateogryPostDto newActivityCategoryPostDto = activityService.createActivityWithCategory(activityCateogryPostDto);
+        return new ResponseEntity<>(newActivityCategoryPostDto, HttpStatus.CREATED);
+    }
+
+
 }
