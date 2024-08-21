@@ -11,6 +11,6 @@ public class ParticipationDto {
     private String remarks;
     private Timestamp participationDate;
     private Timestamp approvalDate;
-    private Long approvedBy;
-    private boolean approvalStatus;
+    private Long EmployeeApprovedBy;
+    private String approvalStatus;
 }
