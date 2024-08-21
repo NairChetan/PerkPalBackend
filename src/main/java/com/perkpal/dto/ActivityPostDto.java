@@ -3,9 +3,10 @@ package com.perkpal.dto;
 import lombok.Data;
 
 @Data
-public class ActivityDto {
+public class ActivityPostDto {
     private String activityName;
-    private String categoryName;
+    private Long categoryId;
     private String categoryDescription;
     private int weightagePerHour;
 }
+

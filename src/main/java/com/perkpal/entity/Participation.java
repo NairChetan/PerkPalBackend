@@ -38,7 +38,10 @@ public class Participation extends BaseEntity {
     @JoinColumn(name = "approved_by",referencedColumnName = "id")
     Employee approvedBy;
     @Column(name = "approval_status")
-    private boolean approvalStatus;
+    private String approvalStatus="pending";
+
+    @Column(name="proof_url")
+    private String proofUrl;
 
 
 
