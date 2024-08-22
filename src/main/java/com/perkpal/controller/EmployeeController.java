@@ -33,5 +33,8 @@ public class EmployeeController {
         return ResponseHandler.responseBuilder("Employee points updated successfully", HttpStatus.OK,
                 employeeService.updateEmployeePoints(id, employeeUpdatePointsDto));
     }
-
+    @GetMapping("/{id}/get-points")
+    public ResponseEntity<Object> getAccountPointsWithId(@PathVariable(name = "id") Long id) {
+        return ResponseHandler.responseBuilder(REQUESTED_EMPLOYEE_DETAILS, HttpStatus.OK, employeeService.getEmployeePointsById(id));
+    }
 }

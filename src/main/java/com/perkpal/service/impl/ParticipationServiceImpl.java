@@ -40,7 +40,6 @@ public class ParticipationServiceImpl implements ParticipationService {
                 .map(participation -> mapper.map(participation, ParticipationDto.class))
                 .collect(Collectors.toList());
     }
-
     @Override
     public ParticipationDto updateParticipation(Long id, ParticipationDto participationDto) {
         Participation participation = participationRepository.findById(id)
