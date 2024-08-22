@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.perkpal.constants.Message.REQUESTED_CLUB_DETAILS;
+import static com.perkpal.constants.Message.*;
 
 @RestController
 @RequestMapping("/api/v1/club")
@@ -28,18 +28,18 @@ public class ClubController {
     @PostMapping
     public ResponseEntity<Object> createClub(@Valid @RequestBody ClubDto clubDto) {
         ClubDto createdClub = clubService.createClub(clubDto);
-        return ResponseHandler.responseBuilder("Club created successfully", HttpStatus.CREATED, createdClub);
+        return ResponseHandler.responseBuilder(CLUB_CREATION, HttpStatus.CREATED, createdClub);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateClub(@PathVariable("id") Long id, @RequestBody Club club) {
         String response = clubService.updateClub(id, club);
-        return ResponseHandler.responseBuilder("Club updated successfully", HttpStatus.OK, response);
+        return ResponseHandler.responseBuilder(CLUB_UPDATION, HttpStatus.OK, response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteClub(@PathVariable("id") Long id) {
         String response = clubService.deleteClub(id);
-        return ResponseHandler.responseBuilder("Club deleted successfully", HttpStatus.NO_CONTENT, null);
+        return ResponseHandler.responseBuilder(CLUB_DELETION, HttpStatus.NO_CONTENT, null);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.perkpal.constants.Message.EMPLOYEE_POINTS_UPDATION;
 import static com.perkpal.constants.Message.REQUESTED_EMPLOYEE_DETAILS;
 
 @RestController
@@ -30,7 +31,7 @@ public class EmployeeController {
     @PutMapping("/{id}/points")
     public ResponseEntity<Object> updateEmployeePoints(@PathVariable(name = "id") Long id,
                                                        @RequestBody EmployeeUpdatePointsDto employeeUpdatePointsDto) {
-        return ResponseHandler.responseBuilder("Employee points updated successfully", HttpStatus.OK,
+        return ResponseHandler.responseBuilder(EMPLOYEE_POINTS_UPDATION , HttpStatus.OK,
                 employeeService.updateEmployeePoints(id, employeeUpdatePointsDto));
     }
 

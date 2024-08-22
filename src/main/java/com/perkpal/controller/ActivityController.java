@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.perkpal.constants.Message.REQUESTED_ACTIVITY_DETAILS;
+import static com.perkpal.constants.Message.*;
 
 @RestController
 @RequestMapping("/api/v1/activity")
@@ -27,12 +27,12 @@ public class ActivityController {
     @PostMapping
     public ResponseEntity<Object> createActivity(@RequestBody ActivityPostDto activityPostDto) {
         ActivityPostDto createdActivity = activityService.createActivity(activityPostDto);
-        return ResponseHandler.responseBuilder("Activity created successfully", HttpStatus.CREATED, createdActivity);
+        return ResponseHandler.responseBuilder(ACTIVITY_DETAILS, HttpStatus.CREATED, createdActivity);
     }
 
     @PostMapping("/create-with-category")
     public ResponseEntity<Object> createActivityWithCategory(@RequestBody ActivityCateogryPostDto activityCateogryPostDto) {
         ActivityCateogryPostDto newActivityCategoryPostDto = activityService.createActivityWithCategory(activityCateogryPostDto);
-        return ResponseHandler.responseBuilder("Activity with category created successfully", HttpStatus.CREATED, newActivityCategoryPostDto);
+        return ResponseHandler.responseBuilder(ACTIVITY_DETAILS_CATEGORY, HttpStatus.CREATED, newActivityCategoryPostDto);
     }
 }
