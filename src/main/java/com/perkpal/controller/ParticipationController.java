@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.perkpal.constants.Message.*;
+
 @RestController
 @RequestMapping("/api/v1/participation")
 public class ParticipationController {
@@ -20,30 +22,30 @@ public class ParticipationController {
     @PostMapping
     public ResponseEntity<Object> createParticipation(@RequestBody ParticipationDto participationDto) {
         ParticipationDto newParticipation = participationService.createParticipation(participationDto);
-        return ResponseHandler.responseBuilder("Participation created successfully", HttpStatus.CREATED, newParticipation);
+        return ResponseHandler.responseBuilder(PARTICIPATION_CREATION, HttpStatus.CREATED, newParticipation);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getParticipationById(@PathVariable Long id) {
         ParticipationDto participation = participationService.getParticipationById(id);
-        return ResponseHandler.responseBuilder("Participation retrieved successfully", HttpStatus.OK, participation);
+        return ResponseHandler.responseBuilder(PARTICIPATION_RETRIEVAL, HttpStatus.OK, participation);
     }
 
     @GetMapping
     public ResponseEntity<Object> getAllParticipations() {
         List<ParticipationDto> participations = participationService.getAllParticipations();
-        return ResponseHandler.responseBuilder("Participations retrieved successfully", HttpStatus.OK, participations);
+        return ResponseHandler.responseBuilder(PARTICIPATION_RETRIEVAL, HttpStatus.OK, participations);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateParticipation(@PathVariable Long id, @RequestBody ParticipationDto participationDto) {
         ParticipationDto updatedParticipation = participationService.updateParticipation(id, participationDto);
-        return ResponseHandler.responseBuilder("Participation updated successfully", HttpStatus.OK, updatedParticipation);
+        return ResponseHandler.responseBuilder(PARTICIPATION_UPDATION, HttpStatus.OK, updatedParticipation);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteParticipation(@PathVariable Long id) {
         participationService.deleteParticipation(id);
-        return ResponseHandler.responseBuilder("Participation deleted successfully", HttpStatus.NO_CONTENT, null);
+        return ResponseHandler.responseBuilder(PARTICIPATION_DELETION, HttpStatus.NO_CONTENT, null);
     }
 }
