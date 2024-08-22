@@ -16,12 +16,8 @@ import static com.perkpal.constants.Message.*;
 @RequestMapping("/api/v1/participation")
 public class ParticipationController {
 
-    private final ParticipationService participationService;
-
     @Autowired
-    public ParticipationController(ParticipationService participationService) {
-        this.participationService = participationService;
-    }
+    private ParticipationService participationService;
 
     @PostMapping
     public ResponseEntity<Object> createParticipation(@RequestBody ParticipationDto participationDto) {

@@ -1,6 +1,7 @@
 package com.perkpal.service;
 
 import com.perkpal.dto.EmployeeDto;
+import com.perkpal.dto.EmployeeDtoWithOnlyPoints;
 import com.perkpal.dto.EmployeeUpdatePointsDto;
 import com.perkpal.entity.Employee;
 
@@ -10,4 +11,5 @@ public interface EmployeeService {
     List<EmployeeDto> getEmployees();
     EmployeeDto getEmployeeById(Long id);
     Employee updateEmployeePoints(Long id, EmployeeUpdatePointsDto employeeUpdatePointsDto);
+    EmployeeDtoWithOnlyPoints getEmployeePointsById(Long id);
 }

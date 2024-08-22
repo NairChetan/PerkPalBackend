@@ -1,8 +1,10 @@
 package com.perkpal.service.impl;
 
 import com.perkpal.dto.EmployeeDto;
+import com.perkpal.dto.EmployeeDtoWithOnlyPoints;
 import com.perkpal.dto.EmployeeUpdatePointsDto;
 import com.perkpal.entity.Employee;
+import com.perkpal.exception.ResourceNotFoundException;
 import com.perkpal.repository.EmployeeRepository;
 import com.perkpal.service.EmployeeService;
 import org.modelmapper.ModelMapper;
@@ -49,5 +51,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return employeeRepository.save(existingEmployee);
+    }
+
+    @Override
+    public EmployeeDtoWithOnlyPoints getEmployeePointsById(Long id) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+        if(employee.isPresent()){
+            return mapper.map(employee.get(),EmployeeDtoWithOnlyPoints.class);
+        }
+        else{
+            return null;
+        }
     }
 }
