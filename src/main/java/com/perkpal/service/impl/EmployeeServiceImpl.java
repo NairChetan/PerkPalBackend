@@ -72,6 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         // Create the DTO and map the fields
         EmployeeRoleDto employeeRoleDto = new EmployeeRoleDto();
+        employeeRoleDto.setId(employee.getId());               // Set the employee ID
         employeeRoleDto.setEmail(employee.getEmail());
         employeeRoleDto.setRoleName(employee.getRoleId().getRoleName()); // Ensure this is the correct field
 
