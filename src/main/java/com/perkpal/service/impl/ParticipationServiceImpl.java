@@ -70,6 +70,11 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
+    public List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNumber, int pageSize) {
+        return List.of();
+    }
+
+    @Override
     public void createParticipation(ParticipationPostDto participationPostDto) {
         // Find activities by category name
         List<Activity> activities = activityRepository.findByCategoryIdCategoryName(participationPostDto.getCategoryName());
@@ -104,11 +109,9 @@ public class ParticipationServiceImpl implements ParticipationService {
 
 
     }
-
-
-    @Override
+/*    @Override
     public List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNumber, int pageSize) {
         List<Participation> participationsByApprovalStatus = participationRepository.findByApprovalStatus("pending");
         return participationsByApprovalStatus.stream().map(participation -> mapper.map(participation, ParticipationDetailsFetchForPendingApprovalDto.class)).collect(Collectors.toList());
-    }
+    }*/
 }
