@@ -2,6 +2,7 @@ package com.perkpal.service.impl;
 
 import com.perkpal.dto.ActivityCateogryPostDto;
 import com.perkpal.dto.ActivityDto;
+import com.perkpal.dto.ActivityGetBasedOnCategoryDto;
 import com.perkpal.dto.ActivityPostDto;
 import com.perkpal.entity.Activity;
 import com.perkpal.entity.Category;
@@ -86,6 +87,16 @@ public class ActivityServiceImpl implements ActivityService {
 
         // Map the saved Activity back to the DTO
         return mapper.map(newActivity, ActivityCateogryPostDto.class);
+    }
+
+    @Override
+    public List<ActivityGetBasedOnCategoryDto> getActivitiesByCategoryName(String categoryName) {
+        List<Activity> activityList = activityRepository.findByCategoryIdCategoryName(categoryName);
+
+        // Map Activity entities to ActivityDto using ModelMapper
+        return activityList.stream()
+                .map(activity -> mapper.map(activity, ActivityGetBasedOnCategoryDto.class))
+                .collect(Collectors.toList());
     }
 
 

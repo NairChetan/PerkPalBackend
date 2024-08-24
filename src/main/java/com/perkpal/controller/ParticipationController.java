@@ -1,6 +1,7 @@
 package com.perkpal.controller;
 
 import com.perkpal.dto.ParticipationDto;
+import com.perkpal.dto.ParticipationPostDto;
 import com.perkpal.response.ResponseHandler;
 import com.perkpal.service.ParticipationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,9 @@ public class ParticipationController {
         participationService.deleteParticipation(id);
         return ResponseHandler.responseBuilder(PARTICIPATION_DELETION, HttpStatus.NO_CONTENT, null);
     }
-    @GetMapping("/pendingapprovalfetch/{pageNumber}/{pageSize}")
-    public ResponseEntity<Object> getDetailsForPendingApproval(){
-        return ResponseHandler.responseBuilder(PARTICIPATION_RETRIEVAL,HttpStatus.OK,participationService.getAllPendingApproval());
+    @PostMapping("/participationpost")
+    public ResponseEntity<Object> createParticipation(@RequestBody ParticipationPostDto participationPostDto) {
+        participationService.createParticipation(participationPostDto);
+        return ResponseHandler.responseBuilder(PARTICIPATION_CREATION, HttpStatus.CREATED, "Participation recorded successfully");
     }
 }
