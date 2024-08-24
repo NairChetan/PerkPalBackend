@@ -11,5 +11,6 @@ public class EmployeeLoginInfoDto {
     private String lastName;
     private String duName;
     private String photoUrl;
+    private String clubName;
 
 }

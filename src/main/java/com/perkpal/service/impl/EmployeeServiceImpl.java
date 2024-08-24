@@ -78,7 +78,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeLoginInfoDto.setLastName(employee.getLastName());
         employeeLoginInfoDto.setDuName(employee.getDuId().getDepartmentName());
         employeeLoginInfoDto.setPhotoUrl(employee.getPhotoUrl());
-
+        employeeLoginInfoDto.setClubName(employee.getClubId().getClubName());
         return employeeLoginInfoDto;
     }
 
