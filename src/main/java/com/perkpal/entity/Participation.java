@@ -44,8 +44,6 @@ public class Participation extends BaseEntity {
     @JsonIgnoreProperties("participationApproved")
     @JoinColumn(name = "approved_by", referencedColumnName = "id")
     Employee approvedBy;
-//    @Column(name = "approved_by")
-//    private Long approvedBy;
     @Column(name = "approval_status", nullable = false)
     private String approvalStatus = "pending";
     @Column(name = "proof_url")
