@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.perkpal.constants.Message.*;
+import static com.perkpal.constants.AppConstants.*;
 
 @RestController
 @RequestMapping("/api/v1/participation")
@@ -53,5 +54,14 @@ public class ParticipationController {
     public ResponseEntity<Object> createParticipation(@RequestBody ParticipationPostDto participationPostDto) {
         participationService.createParticipation(participationPostDto);
         return ResponseHandler.responseBuilder(PARTICIPATION_CREATION, HttpStatus.CREATED, "Participation recorded successfully");
+    }
+    @GetMapping("/pending-approval")
+    public ResponseEntity<Object> getParticipationForPendingApproval(
+            @RequestParam(value = PAGE_NUMBER,defaultValue = DEFAULT_PAGE_NUMBER,required = false) int pageNumber,
+            @RequestParam(value = PAGE_SIZE,defaultValue = DEFAULT_PAGE_SIZE,required = false) int pageSize,
+            @RequestParam(value = SORT_BY,defaultValue = DEFAULT_SORT_BY,required = false) String sortBy,
+            @RequestParam(value = SORT_DIRECTION,defaultValue = DEFAULT_SORT_DIRECTION,required = false) String sortDir
+    ){
+        return ResponseHandler.responseBuilder(PARTICIPATION_RETRIEVAL,HttpStatus.OK,participationService.getAllPendingApproval(pageNumber,pageSize,sortBy,sortDir));
     }
 }

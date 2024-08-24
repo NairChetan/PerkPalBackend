@@ -13,6 +13,10 @@ import com.perkpal.repository.ParticipationRepository;
 import com.perkpal.service.ParticipationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -70,8 +74,13 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
-    public List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNumber, int pageSize) {
-        return List.of();
+    public List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNumber, int pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
+        Page<Participation> participations = participationRepository.findByApprovalStatus("pending",pageable);
+        List<Participation> participationList = participations.getContent();
+        return participationList.stream().map(participation -> mapper.map(participation, ParticipationDetailsFetchForPendingApprovalDto.class)).collect(Collectors.toList());
     }
 
     @Override

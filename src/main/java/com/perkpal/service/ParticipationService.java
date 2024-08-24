@@ -17,7 +17,7 @@ public interface ParticipationService {
 
     void deleteParticipation(Long id);
 
-    List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNumber,int pageSize);
+    List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNo, int pageSize, String sortBy, String sortDir);
 
     void createParticipation(ParticipationPostDto participationPostDto);
 }
