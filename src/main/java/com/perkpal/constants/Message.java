@@ -20,7 +20,7 @@ public class Message {
     public static final String PARTICIPATION_RETRIEVAL="Participation retrieved successfully";
     public static final String PARTICIPATION_UPDATION="Participation updated successfully";
     public static final String PARTICIPATION_DELETION="Participation deleted successfully";
-
+    public static final String EMPLOYEE_ROLE_RETRIEVED = "Employee role retrieved successfully.";
 
 
 
