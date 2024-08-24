@@ -48,4 +48,8 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return ResponseHandler.responseBuilder(CATEGORY_DELETE, HttpStatus.NO_CONTENT, null);
     }
+    @GetMapping("/category-name-only")
+    public ResponseEntity<Object> getCategoryNameOnly(){
+        return ResponseHandler.responseBuilder(CATEGORY_RETRIEVAL,HttpStatus.OK,categoryService.getAllCategoriesForActivityFilter());
+    }
 }

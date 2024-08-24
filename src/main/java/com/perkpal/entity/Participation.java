@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
@@ -32,7 +33,7 @@ public class Participation extends BaseEntity {
 
     @Column(name = "remarks")
     private String remarks;
-
+    @CreationTimestamp
     @Column(name = "participation_date", nullable = false)
     private Timestamp participationDate;
 

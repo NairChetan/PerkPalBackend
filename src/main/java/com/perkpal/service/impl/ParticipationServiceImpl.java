@@ -1,5 +1,10 @@
 package com.perkpal.service.impl;
 
+import com.perkpal.dto.ParticipationPostDto;
+import com.perkpal.entity.Activity;
+import com.perkpal.entity.Employee;
+import com.perkpal.repository.ActivityRepository;
+import com.perkpal.repository.EmployeeRepository;
 import com.perkpal.service.ParticipationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +14,7 @@ import com.perkpal.exception.ResourceNotFoundException;
 import com.perkpal.repository.ParticipationRepository;
 import org.modelmapper.ModelMapper;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,6 +23,15 @@ public class ParticipationServiceImpl implements ParticipationService {
     private  ParticipationRepository participationRepository;
     @Autowired
     private  ModelMapper mapper;
+
+
+
+    @Autowired
+    ActivityRepository activityRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
+
 
 
     @Override
@@ -57,5 +72,49 @@ public class ParticipationServiceImpl implements ParticipationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Participation", "id", id));
         participationRepository.delete(participation);
     }
+
+    @Override
+    public void createParticipation(ParticipationPostDto participationPostDto) {
+        // Find activities by category name
+        List<Activity> activities = activityRepository.findByCategoryIdCategoryName(participationPostDto.getCategoryName());
+
+        // Find the specific activity by activity name
+        Optional<Activity> activityOptional = activities.stream()
+                .filter(activity -> activity.getActivityName().equals(participationPostDto.getActivityName()))
+                .findFirst();
+
+        if (activityOptional.isEmpty()) {
+            throw new IllegalArgumentException("Activity not found for the given category and name.");
+        }
+
+        // Find the employee by ID
+        Optional<Employee> employeeOptional = employeeRepository.findById(participationPostDto.getEmployeeEmpId());
+        if (employeeOptional.isEmpty()) {
+            throw new IllegalArgumentException("Employee not found.");
+        }
+
+        Activity activity = activityOptional.get();
+        Employee employee = employeeOptional.get();
+
+        // Create a new Participation entity
+        Participation participation = new Participation();
+        participation.setActivityId(activity);
+        participation.setRemarks(participationPostDto.getDescription());
+        participation.setDuration(participationPostDto.getDuration());
+        participation.setCreatedBy(participationPostDto.getCreatedBy());
+        participation.setEmployee(employee);
+
+
+
+
+
+        // Save the participation record
+        participationRepository.save(participation);
+
+
+    }
+
+
+
 
 }

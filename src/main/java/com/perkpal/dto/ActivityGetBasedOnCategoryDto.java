@@ -1,10 +1,12 @@
 package com.perkpal.dto;
 
+
 import lombok.Data;
 
 @Data
-public class CategoryActivityDto {
+public class ActivityGetBasedOnCategoryDto {
+
     private Long id;
     private String activityName;
-    private int weightagePerHour;
+    private String categoryName;
 }

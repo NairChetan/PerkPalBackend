@@ -2,10 +2,13 @@ package com.perkpal.service.impl;
 
 import com.perkpal.dto.CategoryDto;
 import com.perkpal.dto.CategoryActivityDto;
+import com.perkpal.dto.CategoryForActivityFilterDto;
+import com.perkpal.dto.ClubDto;
 import com.perkpal.entity.Category;
 import com.perkpal.entity.Activity;
 import com.perkpal.repository.CategoryRepository;
 import com.perkpal.service.CategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -13,6 +16,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
+    @Autowired
+    private ModelMapper mapper;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -56,6 +61,12 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
         categoryRepository.delete(category);
+    }
+
+    @Override
+    public List<CategoryForActivityFilterDto> getAllCategoriesForActivityFilter() {
+        List<Category> categories = categoryRepository.findAll();
+        return categories.stream().map(category -> mapper.map(category, CategoryForActivityFilterDto.class)).collect(Collectors.toList());
     }
 
     // Mapping methods
