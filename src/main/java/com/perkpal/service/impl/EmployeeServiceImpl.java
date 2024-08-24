@@ -2,6 +2,7 @@ package com.perkpal.service.impl;
 
 import com.perkpal.dto.EmployeeDto;
 import com.perkpal.dto.EmployeeDtoWithOnlyPoints;
+import com.perkpal.dto.EmployeeRoleDto;
 import com.perkpal.dto.EmployeeUpdatePointsDto;
 import com.perkpal.entity.Employee;
 import com.perkpal.exception.ResourceNotFoundException;
@@ -62,5 +63,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         else{
             return null;
         }
+    }
+
+    @Override
+    public EmployeeRoleDto getRoleByEmail(String email) {
+        Employee employee = employeeRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Employee not found with email: " + email));
+
+        // Create the DTO and map the fields
+        EmployeeRoleDto employeeRoleDto = new EmployeeRoleDto();
+        employeeRoleDto.setEmail(employee.getEmail());
+        employeeRoleDto.setRoleName(employee.getRoleId().getRoleName()); // Ensure this is the correct field
+
+        return employeeRoleDto;
     }
 }
