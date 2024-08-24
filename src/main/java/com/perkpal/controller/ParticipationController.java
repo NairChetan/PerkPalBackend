@@ -48,4 +48,8 @@ public class ParticipationController {
         participationService.deleteParticipation(id);
         return ResponseHandler.responseBuilder(PARTICIPATION_DELETION, HttpStatus.NO_CONTENT, null);
     }
+    @GetMapping("/pendingapprovalfetch/{pageNumber}/{pageSize}")
+    public ResponseEntity<Object> getDetailsForPendingApproval(){
+        return ResponseHandler.responseBuilder(PARTICIPATION_RETRIEVAL,HttpStatus.OK,participationService.getAllPendingApproval());
+    }
 }

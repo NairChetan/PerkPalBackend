@@ -15,4 +15,5 @@ public class ParticipationDto {
     private Timestamp approvalDate;
     private String approvedByFirstName;
     private String approvalStatus;
+
 }

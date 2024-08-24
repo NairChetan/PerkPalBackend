@@ -1,5 +1,6 @@
 package com.perkpal.service.impl;
 
+import com.perkpal.dto.ParticipationDetailsFetchForPendingApprovalDto;
 import com.perkpal.service.ParticipationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.perkpal.exception.ResourceNotFoundException;
 import com.perkpal.repository.ParticipationRepository;
 import org.modelmapper.ModelMapper;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,4 +60,9 @@ public class ParticipationServiceImpl implements ParticipationService {
         participationRepository.delete(participation);
     }
 
+    @Override
+    public List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNumber,int pageSize) {
+        List<Participation> participationsByApprovalStatus = participationRepository.findByApprovalStatus("pending");
+        return participationsByApprovalStatus.stream().map(participation -> mapper.map(participation, ParticipationDetailsFetchForPendingApprovalDto.class)).collect(Collectors.toList());
+    }
 }
