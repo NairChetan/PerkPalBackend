@@ -1,6 +1,6 @@
     package com.perkpal.controller;
 
-    import com.perkpal.dto.EmployeeRoleDto;
+    import com.perkpal.dto.EmployeeLoginInfoDto;
     import com.perkpal.dto.EmployeeUpdatePointsDto;
     import com.perkpal.response.ResponseHandler;
     import com.perkpal.service.EmployeeService;
@@ -38,9 +38,9 @@
         public ResponseEntity<Object> getAccountPointsWithId(@PathVariable(name = "id") Long id) {
             return ResponseHandler.responseBuilder(REQUESTED_EMPLOYEE_DETAILS, HttpStatus.OK, employeeService.getEmployeePointsById(id));
         }
-        @GetMapping("/role")
-        public ResponseEntity<Object> getRoleByEmail(@RequestParam(name = "email") String email) {
-            EmployeeRoleDto employeeRoleDto = employeeService.getRoleByEmail(email);
-            return ResponseHandler.responseBuilder(EMPLOYEE_ROLE_RETRIEVED, HttpStatus.OK, employeeRoleDto);
+        @GetMapping("/login-info")
+        public ResponseEntity<Object> getEmployeeLoginInfoByEmail(@RequestParam(name = "email") String email) {
+            EmployeeLoginInfoDto employeeLoginInfoDto = employeeService.getEmployeeLoginInfoByEmail(email);
+            return ResponseHandler.responseBuilder(EMPLOYEE_ROLE_RETRIEVED, HttpStatus.OK, employeeLoginInfoDto);
         }
     }

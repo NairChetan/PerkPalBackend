@@ -23,4 +23,6 @@ public class Du{
     private String departmentName;
     @OneToMany(mappedBy = "duId",cascade = CascadeType.ALL,targetEntity = Employee.class)
     private Set<Employee> employees = new HashSet<>();
+
+
 }
