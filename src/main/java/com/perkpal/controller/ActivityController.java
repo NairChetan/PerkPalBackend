@@ -1,6 +1,8 @@
 package com.perkpal.controller;
 
 import com.perkpal.dto.ActivityCateogryPostDto;
+import com.perkpal.dto.ActivityDto;
+import com.perkpal.dto.ActivityGetBasedOnCategoryDto;
 import com.perkpal.dto.ActivityPostDto;
 import com.perkpal.response.ResponseHandler;
 import com.perkpal.service.ActivityService;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.perkpal.constants.Message.*;
 
@@ -34,5 +38,10 @@ public class ActivityController {
     public ResponseEntity<Object> createActivityWithCategory(@RequestBody ActivityCateogryPostDto activityCateogryPostDto) {
         ActivityCateogryPostDto newActivityCategoryPostDto = activityService.createActivityWithCategory(activityCateogryPostDto);
         return ResponseHandler.responseBuilder(ACTIVITY_DETAILS_CATEGORY, HttpStatus.CREATED, newActivityCategoryPostDto);
+    }
+
+    @GetMapping("/category/{categoryName}")
+    public ResponseEntity<Object> getActivitiesByCategoryName(@PathVariable String categoryName) {
+        return ResponseHandler.responseBuilder(REQUESTED_ACTIVITY_DETAILS,HttpStatus.OK,activityService.getActivitiesByCategoryName(categoryName));
     }
 }
