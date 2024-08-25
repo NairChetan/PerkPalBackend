@@ -2,10 +2,9 @@ package com.perkpal.service.impl;
 
 import com.perkpal.dto.EmployeeDto;
 import com.perkpal.dto.EmployeeDtoWithOnlyPoints;
-import com.perkpal.dto.EmployeeRoleDto;
+import com.perkpal.dto.EmployeeLoginInfoDto;
 import com.perkpal.dto.EmployeeUpdatePointsDto;
 import com.perkpal.entity.Employee;
-import com.perkpal.exception.ResourceNotFoundException;
 import com.perkpal.repository.EmployeeRepository;
 import com.perkpal.service.EmployeeService;
 import org.modelmapper.ModelMapper;
@@ -66,16 +65,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeRoleDto getRoleByEmail(String email) {
+    public EmployeeLoginInfoDto getEmployeeLoginInfoByEmail(String email) {
         Employee employee = employeeRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Employee not found with email: " + email));
 
-        // Create the DTO and map the fields
-        EmployeeRoleDto employeeRoleDto = new EmployeeRoleDto();
-        employeeRoleDto.setId(employee.getId());               // Set the employee ID
-        employeeRoleDto.setEmail(employee.getEmail());
-        employeeRoleDto.setRoleName(employee.getRoleId().getRoleName()); // Ensure this is the correct field
-
-        return employeeRoleDto;
+        // Map the necessary fields to EmployeeLoginInfoDto
+        EmployeeLoginInfoDto employeeLoginInfoDto = new EmployeeLoginInfoDto();
+        employeeLoginInfoDto.setId(employee.getId());
+        employeeLoginInfoDto.setEmail(employee.getEmail());
+        employeeLoginInfoDto.setRoleName(employee.getRoleId().getRoleName());
+        employeeLoginInfoDto.setFirstName(employee.getFirstName());
+        employeeLoginInfoDto.setLastName(employee.getLastName());
+        employeeLoginInfoDto.setDuName(employee.getDuId().getDepartmentName());
+        employeeLoginInfoDto.setPhotoUrl(employee.getPhotoUrl());
+        employeeLoginInfoDto.setClubName(employee.getClubId().getClubName());
+        return employeeLoginInfoDto;
     }
+
+
 }
