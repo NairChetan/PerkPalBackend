@@ -1,5 +1,6 @@
     package com.perkpal.controller;
 
+    import com.perkpal.dto.EmployeeLeaderBoardDto;
     import com.perkpal.dto.EmployeeLoginInfoDto;
     import com.perkpal.dto.EmployeeUpdatePointsDto;
     import com.perkpal.response.ResponseHandler;
@@ -8,6 +9,8 @@
     import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.web.bind.annotation.*;
+
+    import java.util.List;
 
     import static com.perkpal.constants.Message.*;
 
@@ -43,4 +46,12 @@
             EmployeeLoginInfoDto employeeLoginInfoDto = employeeService.getEmployeeLoginInfoByEmail(email);
             return ResponseHandler.responseBuilder(EMPLOYEE_ROLE_RETRIEVED, HttpStatus.OK, employeeLoginInfoDto);
         }
+
+        @GetMapping("/leaderboard")
+        public ResponseEntity<Object> getEmployeeLeaderboard(@RequestParam(name = "year") int year) {
+            List<EmployeeLeaderBoardDto> leaderboard = employeeService.getSortedLeaderboard(year);
+            return ResponseHandler.responseBuilder(LEADERBOARD_RETRIEVED, HttpStatus.OK, leaderboard.subList(0,3));
+        }
+
+
     }
