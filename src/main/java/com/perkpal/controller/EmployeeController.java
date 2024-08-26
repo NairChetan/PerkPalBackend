@@ -1,6 +1,7 @@
     package com.perkpal.controller;
 
     import com.perkpal.dto.EmployeeDto;
+    import com.perkpal.dto.EmployeeLeaderBoardDto;
     import com.perkpal.dto.EmployeeLoginInfoDto;
     import com.perkpal.dto.EmployeeSummaryDto;
     import com.perkpal.dto.EmployeeUpdatePointsDto;
@@ -12,6 +13,8 @@
     import org.springframework.web.bind.annotation.*;
     import io.swagger.v3.oas.annotations.Parameter;
 
+    import java.util.List;
+
     import static com.perkpal.constants.Message.*;
     import java.sql.Timestamp;
     import java.util.List;
@@ -20,7 +23,7 @@
 
     @RestController
     @RequestMapping("/api/v1/employee")
-        public class EmployeeController {
+    public class EmployeeController {
         @Autowired
         private EmployeeService employeeService;
 
@@ -66,4 +69,12 @@
                 throw new RuntimeException("Invalid date format", e);
             }
         }
+
+        @GetMapping("/leaderboard")
+        public ResponseEntity<Object> getEmployeeLeaderboard() {
+            List<EmployeeLeaderBoardDto> leaderboard = employeeService.getSortedLeaderboard();
+            return ResponseHandler.responseBuilder(LEADERBOARD_RETRIEVED, HttpStatus.OK, leaderboard.subList(0, Math.min(3, leaderboard.size())));
+        }
+
+
     }

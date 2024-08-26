@@ -1,5 +1,6 @@
 package com.perkpal.repository;
 
+import com.perkpal.dto.EmployeeLeaderBoardDto;
 import com.perkpal.entity.Participation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,5 +21,21 @@ public interface ParticipationRepository extends JpaRepository<Participation,Lon
             "GROUP BY p.employee.id")
     List<Object[]> findEmployeePointsInDateRange(@Param("initialDate") Timestamp initialDate,
                                                  @Param("endDate") Timestamp endDate);
-}
 
+
+    @Query("SELECT new com.perkpal.dto.EmployeeLeaderBoardDto(" +
+            "e.id, " +
+            "CONCAT(e.firstName, ' ', e.lastName), " +
+            "d.departmentName, " +
+            "e.photoUrl, " +
+            "(SUM(a.weightagePerHour * (p.duration / 60.0)))) " +  // Convert minutes to hours
+            "FROM Participation p " +
+            "JOIN p.activityId a " +
+            "JOIN p.employee e " +
+            "JOIN e.duId d " +
+            "WHERE EXTRACT(YEAR FROM p.participationDate) = :year " +
+            "AND p.approvalStatus = 'approved' " +
+            "GROUP BY e.id, e.firstName, e.lastName, d.departmentName, e.photoUrl " +
+            "ORDER BY SUM(a.weightagePerHour * (p.duration / 60.0)) DESC")  // Ordering by totalPoints
+    List<EmployeeLeaderBoardDto> findEmployeeLeaderboardByYear(@Param("year") int year);
+}

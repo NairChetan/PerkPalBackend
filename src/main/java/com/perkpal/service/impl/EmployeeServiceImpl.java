@@ -1,9 +1,6 @@
 package com.perkpal.service.impl;
 
-import com.perkpal.dto.EmployeeDto;
-import com.perkpal.dto.EmployeeDtoWithOnlyPoints;
-import com.perkpal.dto.EmployeeLoginInfoDto;
-import com.perkpal.dto.EmployeeUpdatePointsDto;
+import com.perkpal.dto.*;
 import com.perkpal.entity.Employee;
 import com.perkpal.repository.EmployeeRepository;
 import com.perkpal.repository.ParticipationRepository;
@@ -13,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.perkpal.dto.EmployeeSummaryDto;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -95,4 +91,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeSummaryDto> getEmployeesByPointsInDateRange(Timestamp initialDate, Timestamp endDate) {
         return employeeRepository.findEmployeesByPointsInDateRange(initialDate, endDate);
     }
+
+    @Override
+    public List<EmployeeLeaderBoardDto> getSortedLeaderboard() {
+        int currentYear = java.time.Year.now().getValue(); // Get the current year
+        return participationRepository.findEmployeeLeaderboardByYear(currentYear);
+    }
+
+
+
+
 }
