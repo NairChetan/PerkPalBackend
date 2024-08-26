@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 
 @Data
 public class ParticipationDetailsFetchForPendingApprovalDto {
+    private Long id;
     private String employeeFirstName;
     private String employeeLastName;
     private Long employeeId;

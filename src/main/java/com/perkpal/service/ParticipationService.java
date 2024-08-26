@@ -1,8 +1,6 @@
 package com.perkpal.service;
 
-import com.perkpal.dto.ParticipationDetailsFetchForPendingApprovalDto;
-import com.perkpal.dto.ParticipationDto;
-import com.perkpal.dto.ParticipationPostDto;
+import com.perkpal.dto.*;
 
 import java.util.List;
 
@@ -17,7 +15,10 @@ public interface ParticipationService {
 
     void deleteParticipation(Long id);
 
-    List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNo, int pageSize, String sortBy, String sortDir);
+    PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNo, int pageSize, String sortBy, String sortDir);
 
     void createParticipation(ParticipationPostDto participationPostDto);
+
+    ParticipationApprovalStatusRemarksPostDto updateApprovalStatusAndRemark(Long id,ParticipationApprovalStatusRemarksPostDto participationApprovalStatusRemarksPostDto);
+
 }
