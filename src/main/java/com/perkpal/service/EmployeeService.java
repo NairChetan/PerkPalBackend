@@ -5,15 +5,22 @@ import com.perkpal.dto.EmployeeDtoWithOnlyPoints;
 import com.perkpal.dto.EmployeeLoginInfoDto;
 import com.perkpal.dto.EmployeeUpdatePointsDto;
 import com.perkpal.entity.Employee;
+import com.perkpal.dto.EmployeeSummaryDto;
 
 import java.sql.Timestamp;
 import java.util.List;
 
 public interface EmployeeService {
     List<EmployeeDto> getEmployees();
+
     EmployeeDto getEmployeeById(Long id);
+
     Employee updateEmployeePoints(Long id, EmployeeUpdatePointsDto employeeUpdatePointsDto);
+
     EmployeeDtoWithOnlyPoints getEmployeePointsById(Long id);
+
     EmployeeLoginInfoDto getEmployeeLoginInfoByEmail(String email);
-    List<EmployeeDto> getEmployeesByPointsInDateRange(Timestamp initialDate, Timestamp endDate);
+
+    List<EmployeeSummaryDto> getEmployeesByPointsInDateRange(Timestamp initialDate, Timestamp endDate);
 }
+
