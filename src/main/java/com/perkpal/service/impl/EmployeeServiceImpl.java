@@ -8,19 +8,23 @@ import com.perkpal.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.perkpal.dto.EmployeeSummaryDto;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+
+import java.sql.Timestamp;
+import java.util.Map;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private ModelMapper mapper;
     @Autowired
     private EmployeeRepository employeeRepository;
-
     @Autowired
     private ParticipationRepository participationRepository;
-
     @Override
     public List<EmployeeDto> getEmployees() {
         List<Employee> employeeList = employeeRepository.findAll();
@@ -83,6 +87,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeLoginInfoDto;
     }
 
+    @Override
+    public List<EmployeeSummaryDto> getEmployeesByPointsInDateRange(Timestamp initialDate, Timestamp endDate) {
+        return employeeRepository.findEmployeesByPointsInDateRange(initialDate, endDate);
+    }
 
     @Override
     public List<EmployeeLeaderBoardDto> getSortedLeaderboard() {
