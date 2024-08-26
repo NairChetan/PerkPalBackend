@@ -48,9 +48,9 @@
         }
 
         @GetMapping("/leaderboard")
-        public ResponseEntity<Object> getEmployeeLeaderboard(@RequestParam(name = "year") int year) {
-            List<EmployeeLeaderBoardDto> leaderboard = employeeService.getSortedLeaderboard(year);
-            return ResponseHandler.responseBuilder(LEADERBOARD_RETRIEVED, HttpStatus.OK, leaderboard.subList(0,3));
+        public ResponseEntity<Object> getEmployeeLeaderboard() {
+            List<EmployeeLeaderBoardDto> leaderboard = employeeService.getSortedLeaderboard();
+            return ResponseHandler.responseBuilder(LEADERBOARD_RETRIEVED, HttpStatus.OK, leaderboard.subList(0, Math.min(3, leaderboard.size())));
         }
 
 

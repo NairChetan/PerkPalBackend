@@ -11,5 +11,5 @@ public interface EmployeeService {
     Employee updateEmployeePoints(Long id, EmployeeUpdatePointsDto employeeUpdatePointsDto);
     EmployeeDtoWithOnlyPoints getEmployeePointsById(Long id);
     EmployeeLoginInfoDto getEmployeeLoginInfoByEmail(String email);
-    List<EmployeeLeaderBoardDto> getSortedLeaderboard(int year);
+    List<EmployeeLeaderBoardDto> getSortedLeaderboard();
 }

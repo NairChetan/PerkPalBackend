@@ -9,10 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -88,14 +85,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public List<EmployeeLeaderBoardDto> getSortedLeaderboard(int year) {
-        List<EmployeeLeaderBoardDto> leaderboard = participationRepository.findEmployeeLeaderboardByYear(year);
-        Collections.sort(leaderboard, new Comparator<EmployeeLeaderBoardDto>() {
-            @Override
-            public int compare(EmployeeLeaderBoardDto o1, EmployeeLeaderBoardDto o2) {
-                return Long.compare(o2.getTotalPoints(), o1.getTotalPoints()); // Descending order
-            }
-        });
+    public List<EmployeeLeaderBoardDto> getSortedLeaderboard() {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        List<EmployeeLeaderBoardDto> leaderboard = participationRepository.findEmployeeLeaderboardByYear(currentYear);
+
+        // Sorting in descending order by totalPoints
+        leaderboard.sort((o1, o2) -> Long.compare(o2.getTotalPoints(), o1.getTotalPoints()));
+
         return leaderboard;
     }
 
