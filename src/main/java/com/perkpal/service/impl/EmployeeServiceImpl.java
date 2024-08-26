@@ -6,6 +6,7 @@ import com.perkpal.dto.EmployeeLoginInfoDto;
 import com.perkpal.dto.EmployeeUpdatePointsDto;
 import com.perkpal.entity.Employee;
 import com.perkpal.repository.EmployeeRepository;
+import com.perkpal.repository.ParticipationRepository;
 import com.perkpal.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import java.sql.Timestamp;
+import java.util.Map;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private ModelMapper mapper;
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private ParticipationRepository participationRepository;
     @Override
     public List<EmployeeDto> getEmployees() {
         List<Employee> employeeList = employeeRepository.findAll();
@@ -80,6 +87,31 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeLoginInfoDto.setPhotoUrl(employee.getPhotoUrl());
         employeeLoginInfoDto.setClubName(employee.getClubId().getClubName());
         return employeeLoginInfoDto;
+    }
+
+    @Override
+    public List<EmployeeDto> getEmployeesByPointsInDateRange(Timestamp initialDate, Timestamp endDate) {
+        // Fetch the points from the ParticipationRepository
+        List<Object[]> results = participationRepository.findEmployeePointsInDateRange(initialDate, endDate);
+
+        // Map the results to Employee entities
+        Map<Long, Long> employeePointsMap = results.stream()
+                .collect(Collectors.toMap(result -> (Long) result[0], result -> (Long) result[1]));
+
+        // Fetch employees and sort them by points
+        List<Employee> employees = employeeRepository.findAll().stream()
+                .filter(employee -> employeePointsMap.containsKey(employee.getId()))
+                .sorted((e1, e2) -> employeePointsMap.get(e2.getId()).compareTo(employeePointsMap.get(e1.getId())))
+                .collect(Collectors.toList());
+
+        // Convert to DTOs
+        return employees.stream()
+                .map(employee -> {
+                    EmployeeDto employeeDto = mapper.map(employee, EmployeeDto.class);
+                    employeeDto.setTotalPoints(employeePointsMap.get(employee.getId()));
+                    return employeeDto;
+                })
+                .collect(Collectors.toList());
     }
 
 
