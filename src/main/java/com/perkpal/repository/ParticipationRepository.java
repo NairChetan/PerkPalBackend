@@ -18,7 +18,7 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
             "CONCAT(e.firstName, ' ', e.lastName), " +
             "d.departmentName, " +
             "e.photoUrl, " +
-            "SUM(a.weightagePerHour * p.duration)) " +
+            "(SUM(a.weightagePerHour * (p.duration / 60.0)))) " +  // Convert minutes to hours
             "FROM Participation p " +
             "JOIN p.activityId a " +
             "JOIN p.employee e " +
@@ -26,6 +26,6 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
             "WHERE EXTRACT(YEAR FROM p.participationDate) = :year " +
             "AND p.approvalStatus = 'approved' " +
             "GROUP BY e.id, e.firstName, e.lastName, d.departmentName, e.photoUrl " +
-            "ORDER BY totalPoints DESC")
+            "ORDER BY SUM(a.weightagePerHour * (p.duration / 60.0)) DESC")  // Ordering by totalPoints
     List<EmployeeLeaderBoardDto> findEmployeeLeaderboardByYear(@Param("year") int year);
 }

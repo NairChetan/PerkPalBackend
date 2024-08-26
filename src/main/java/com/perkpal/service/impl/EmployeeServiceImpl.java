@@ -86,13 +86,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeLeaderBoardDto> getSortedLeaderboard() {
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        List<EmployeeLeaderBoardDto> leaderboard = participationRepository.findEmployeeLeaderboardByYear(currentYear);
-
-        // Sorting in descending order by totalPoints
-        leaderboard.sort((o1, o2) -> Long.compare(o2.getTotalPoints(), o1.getTotalPoints()));
-
-        return leaderboard;
+        int currentYear = java.time.Year.now().getValue(); // Get the current year
+        return participationRepository.findEmployeeLeaderboardByYear(currentYear);
     }
 
 

@@ -11,5 +11,6 @@ public class EmployeeLeaderBoardDto {
     private String fullName;
     private String departmentName;
     private String photoUrl;
-    private Long totalPoints;
+    private Double totalPoints;
 }
+
