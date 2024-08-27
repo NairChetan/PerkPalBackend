@@ -75,6 +75,20 @@
             List<EmployeeLeaderBoardDto> leaderboard = employeeService.getSortedLeaderboard();
             return ResponseHandler.responseBuilder(LEADERBOARD_RETRIEVED, HttpStatus.OK, leaderboard.subList(0, Math.min(3, leaderboard.size())));
         }
+        @GetMapping("/api/v1/employees/by-points-full-details")
+        public List<EmployeeDto> getEmployeesByPointsWithFullEmployeeDetails(
+                @RequestParam("initialDate") String initialDateStr,
+                @RequestParam("endDate") String endDateStr) {
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                Timestamp initialDate = new Timestamp(dateFormat.parse(initialDateStr).getTime());
+                Timestamp endDate = new Timestamp(dateFormat.parse(endDateStr).getTime());
+                return employeeService.getEmployeesByPointsInDateRangeWithEmployeeDto(initialDate, endDate);
+            } catch (ParseException e) {
+                // Handle date parsing error
+                throw new RuntimeException("Invalid date format", e);
+            }
+        }
 
 
     }
