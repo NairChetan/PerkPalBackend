@@ -69,4 +69,5 @@ public class ParticipationController {
         ParticipationApprovalStatusRemarksPostDto updatedParticipation = participationService.updateApprovalStatusAndRemark(id,participationApprovalStatusRemarksPostDto);
         return ResponseHandler.responseBuilder(PARTICIPATION_UPDATION,HttpStatus.OK,updatedParticipation);
     }
+
 }
