@@ -1,6 +1,7 @@
 package com.perkpal.controller;
 
 import com.perkpal.dto.ParticipationDto;
+import com.perkpal.dto.ParticipationGetForUserLogDto;
 import com.perkpal.dto.ParticipationPostDto;
 import com.perkpal.response.ResponseHandler;
 import com.perkpal.service.ParticipationService;
@@ -8,7 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import static com.perkpal.constants.Message.*;
@@ -64,4 +70,57 @@ public class ParticipationController {
     ){
         return ResponseHandler.responseBuilder(PARTICIPATION_RETRIEVAL,HttpStatus.OK,participationService.getAllPendingApproval(pageNumber,pageSize,sortBy,sortDir));
     }
-}
+
+    @Autowired
+    private ParticipationService participationService1;
+
+
+    @GetMapping("/date/{date}")
+    public List<ParticipationGetForUserLogDto> getUserLoginsByDate(
+            @PathVariable("date") String dateStr,
+            @RequestParam("employeeId") Long employeeId) {
+        try {
+            LocalDate date = LocalDate.parse(dateStr); // Assuming dateStr is in "yyyy-MM-dd" format
+            return participationService.getUserLoginsByDateAndEmployeeId(date, employeeId);
+        } catch (DateTimeParseException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format. Please use 'yyyy-MM-dd'.");
+        }
+    }
+
+        @GetMapping("/date")
+        public List<ParticipationGetForUserLogDto> getUserLoginsByEmployeeId(
+                @RequestParam("employeeId") Long employeeId) {
+            try {
+                return participationService.getUserLoginsByEmployeeId(employeeId);
+            } catch (DateTimeParseException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format. Please use 'yyyy-MM-dd'.");
+            }
+
+
+
+//    @GetMapping("/date/{date}")
+//    public List<ParticipationGetForUserLogDto> getUserLoginsByDate(@PathVariable("date") String dateStr) {
+//        try {
+//            // Parse the date string into a LocalDate
+//            LocalDate date = LocalDate.parse(dateStr); // Assuming dateStr is in "yyyy-MM-dd" format
+//            return participationService1.getUserLoginsByDate(date);
+//        } catch (DateTimeParseException e) {
+//            // Handle the error (e.g., return an error response)
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format. Please use 'yyyy-MM-dd'.");
+//        }
+//    }
+//@GetMapping("/date/{date}")
+//public List<ParticipationGetForUserLogDto> getUserLoginsByDate(
+//        @PathVariable("date") String dateStr,
+//        @RequestParam("employeeId") Long employeeId) {
+//    try {
+//        LocalDate date = LocalDate.parse(dateStr); // Adjust format if needed
+//        return participationService.getUserLoginsByDate(date, employeeId);
+//    } catch (DateTimeParseException e) {
+//        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format.");
+//    }
+//}
+
+
+
+}}
