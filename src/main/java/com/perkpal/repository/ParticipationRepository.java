@@ -36,6 +36,7 @@ public interface ParticipationRepository extends JpaRepository<Participation,Lon
             "WHERE EXTRACT(YEAR FROM p.participationDate) = :year " +
             "AND p.approvalStatus = 'approved' " +
             "GROUP BY e.id, e.firstName, e.lastName, d.departmentName, e.photoUrl " +
-            "ORDER BY SUM(a.weightagePerHour * (p.duration / 60.0)) DESC")  // Ordering by totalPoints
+            "ORDER BY SUM(a.weightagePerHour * (p.duration / 60.0)) DESC")
+        // Ordering by totalPoints
     List<EmployeeLeaderBoardDto> findEmployeeLeaderboardByYear(@Param("year") int year);
 }
