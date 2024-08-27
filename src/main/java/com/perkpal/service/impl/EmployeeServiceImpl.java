@@ -98,7 +98,30 @@ public class EmployeeServiceImpl implements EmployeeService {
         return participationRepository.findEmployeeLeaderboardByYear(currentYear);
     }
 
+    @Override
+    public List<EmployeeDto> getEmployeesByPointsInDateRangeWithEmployeeDto(Timestamp initialDate, Timestamp endDate) {
+        // Fetch the points from the ParticipationRepository
+        List<Object[]> results = participationRepository.findEmployeePointsInDateRange(initialDate, endDate);
 
+        // Map the results to Employee entities
+        Map<Long, Long> employeePointsMap = results.stream()
+                .collect(Collectors.toMap(result -> (Long) result[0], result -> (Long) result[1]));
+
+        // Fetch employees and sort them by points
+        List<Employee> employees = employeeRepository.findAll().stream()
+                .filter(employee -> employeePointsMap.containsKey(employee.getId()))
+                .sorted((e1, e2) -> employeePointsMap.get(e2.getId()).compareTo(employeePointsMap.get(e1.getId())))
+                .collect(Collectors.toList());
+
+        // Convert to DTOs
+        return employees.stream()
+                .map(employee -> {
+                    EmployeeDto employeeDto = mapper.map(employee, EmployeeDto.class);
+                    employeeDto.setTotalPoints(employeePointsMap.get(employee.getId()));
+                    return employeeDto;
+                })
+                .collect(Collectors.toList());
+    }
 
 
 }

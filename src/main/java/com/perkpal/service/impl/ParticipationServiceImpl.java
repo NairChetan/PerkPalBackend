@@ -75,10 +75,9 @@ public class ParticipationServiceImpl implements ParticipationService {
 
     @Override
     public List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNumber, int pageSize, String sortBy, String sortDir) {
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-        Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
-        Page<Participation> participations = participationRepository.findByApprovalStatus("pending",pageable);
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        Page<Participation> participations = participationRepository.findByApprovalStatus("pending", pageable);
         List<Participation> participationList = participations.getContent();
         return participationList.stream().map(participation -> mapper.map(participation, ParticipationDetailsFetchForPendingApprovalDto.class)).collect(Collectors.toList());
     }
@@ -118,9 +117,5 @@ public class ParticipationServiceImpl implements ParticipationService {
 
 
     }
-/*    @Override
-    public List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNumber, int pageSize) {
-        List<Participation> participationsByApprovalStatus = participationRepository.findByApprovalStatus("pending");
-        return participationsByApprovalStatus.stream().map(participation -> mapper.map(participation, ParticipationDetailsFetchForPendingApprovalDto.class)).collect(Collectors.toList());
-    }*/
+
 }
