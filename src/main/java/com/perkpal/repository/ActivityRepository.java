@@ -9,3 +9,5 @@ public interface ActivityRepository extends JpaRepository<Activity,Long> {
     // JPA derived query method to find activities by category name
     List<Activity> findByCategoryIdCategoryName(String categoryName);
 }
+
+

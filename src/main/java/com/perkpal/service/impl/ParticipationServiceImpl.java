@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -114,7 +116,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         // Create a new Participation entity
         Participation participation = new Participation();
         participation.setActivityId(activity);
-        participation.setRemarks(participationPostDto.getDescription());
+        participation.setDescription(participationPostDto.getDescription());
         participation.setDuration(participationPostDto.getDuration());
         participation.setCreatedBy(participationPostDto.getCreatedBy());
         participation.setEmployee(employee);
@@ -139,4 +141,35 @@ public class ParticipationServiceImpl implements ParticipationService {
         Participation updatedParticipation = participationRepository.save(participation);
         return mapper.map(updatedParticipation, ParticipationApprovalStatusRemarksPostDto.class);
     }
+
+    @Override
+    public List<ParticipationGetForUserLogDto> getUserLoginsByDateAndEmployeeId(LocalDate date, Long employeeId) {
+        List<Participation> participations = participationRepository.findByParticipationDateAndEmployeeId(date, employeeId);
+        return participations.stream()
+                .map(participation -> mapper.map(participation, ParticipationGetForUserLogDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ParticipationGetForUserLogDto> getUserLoginsByEmployeeId(Long employeeId) {
+        List<Participation> participations = participationRepository.findByParticipationEmployeeId( employeeId);
+        return participations.stream()
+                .map(participation -> mapper.map(participation, ParticipationGetForUserLogDto.class))
+                .collect(Collectors.toList());
+    }
+
+
+//    @Override
+//    public List<ParticipationGetForUserLogDto> getUserLoginsByDate(LocalDate participationDate) {
+//        List<Participation> participations = participationRepository.findByParticipationDate(participationDate);
+//        return participations.stream()
+//                .map(participation -> mapper.map(participation, ParticipationGetForUserLogDto.class))
+//                .collect(Collectors.toList());
+//    }
+
+/*    @Override
+    public List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNumber, int pageSize) {
+        List<Participation> participationsByApprovalStatus = participationRepository.findByApprovalStatus("pending");
+        return participationsByApprovalStatus.stream().map(participation -> mapper.map(participation, ParticipationDetailsFetchForPendingApprovalDto.class)).collect(Collectors.toList());
+    }*/
 }

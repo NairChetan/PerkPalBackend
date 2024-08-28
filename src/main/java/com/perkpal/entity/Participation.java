@@ -46,6 +46,8 @@ public class Participation extends BaseEntity {
     Employee approvedBy;
     @Column(name = "approval_status", nullable = false)
     private String approvalStatus = "pending";
+    @Column(name = "description", nullable = false)
+    private String description;
     @Column(name = "proof_url")
     private String proofUrl;
 }
