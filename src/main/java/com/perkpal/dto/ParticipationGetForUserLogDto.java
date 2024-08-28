@@ -16,6 +16,7 @@ public class ParticipationGetForUserLogDto{
         private String description;
         private int duration;
         private String status;
+        private String remarks;
         private String proof;
         private Timestamp participationDate;
 
