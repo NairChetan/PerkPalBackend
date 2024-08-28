@@ -1,9 +1,6 @@
 package com.perkpal.service.impl;
 
-import com.perkpal.dto.ParticipationDetailsFetchForPendingApprovalDto;
-import com.perkpal.dto.ParticipationDto;
-import com.perkpal.dto.ParticipationGetForUserLogDto;
-import com.perkpal.dto.ParticipationPostDto;
+import com.perkpal.dto.*;
 import com.perkpal.entity.Activity;
 import com.perkpal.entity.Employee;
 import com.perkpal.entity.Participation;
@@ -77,13 +74,22 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
-    public List<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(int pageNumber, int pageSize, String sortBy, String sortDir) {
+    public PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> getAllPendingApproval(
+            int pageNumber, int pageSize, String sortBy, String sortDir) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
-        Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
-        Page<Participation> participations = participationRepository.findByApprovalStatus("pending",pageable);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        Page<Participation> participations = participationRepository.findByApprovalStatus("pending", pageable);
         List<Participation> participationList = participations.getContent();
-        return participationList.stream().map(participation -> mapper.map(participation, ParticipationDetailsFetchForPendingApprovalDto.class)).collect(Collectors.toList());
+
+        // Construct and return PaginatedResponse
+        return new PaginatedResponse<>(
+                participationList.stream().map(participation -> mapper.map(participation, ParticipationDetailsFetchForPendingApprovalDto.class)).collect(Collectors.toList()),
+                participations.getTotalPages(),
+                participations.getTotalElements(),
+                participations.getSize(),
+                participations.getNumber()
+        );
     }
 
     @Override
@@ -120,6 +126,20 @@ public class ParticipationServiceImpl implements ParticipationService {
         participationRepository.save(participation);
 
 
+    }
+
+    /**
+     * This function is to update the approval_status and remarks in participation table from admin side pending approval page.
+     * @param id = participation id
+     * @param participationApprovalStatusRemarksPostDto = For posting approval_status and remarks
+     * @return
+     */
+    @Override
+    public ParticipationApprovalStatusRemarksPostDto updateApprovalStatusAndRemark(Long id, ParticipationApprovalStatusRemarksPostDto participationApprovalStatusRemarksPostDto) {
+        Participation participation = participationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Participation", "id", id));
+        mapper.map(participationApprovalStatusRemarksPostDto, participation);
+        Participation updatedParticipation = participationRepository.save(participation);
+        return mapper.map(updatedParticipation, ParticipationApprovalStatusRemarksPostDto.class);
     }
 
     @Override

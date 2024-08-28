@@ -1,8 +1,6 @@
 package com.perkpal.controller;
 
-import com.perkpal.dto.ParticipationDto;
-import com.perkpal.dto.ParticipationGetForUserLogDto;
-import com.perkpal.dto.ParticipationPostDto;
+import com.perkpal.dto.*;
 import com.perkpal.response.ResponseHandler;
 import com.perkpal.service.ParticipationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,12 +61,18 @@ public class ParticipationController {
     }
     @GetMapping("/pending-approval")
     public ResponseEntity<Object> getParticipationForPendingApproval(
-            @RequestParam(value = PAGE_NUMBER,defaultValue = DEFAULT_PAGE_NUMBER,required = false) int pageNumber,
-            @RequestParam(value = PAGE_SIZE,defaultValue = DEFAULT_PAGE_SIZE,required = false) int pageSize,
-            @RequestParam(value = SORT_BY,defaultValue = DEFAULT_SORT_BY,required = false) String sortBy,
-            @RequestParam(value = SORT_DIRECTION,defaultValue = DEFAULT_SORT_DIRECTION,required = false) String sortDir
-    ){
-        return ResponseHandler.responseBuilder(PARTICIPATION_RETRIEVAL,HttpStatus.OK,participationService.getAllPendingApproval(pageNumber,pageSize,sortBy,sortDir));
+            @RequestParam(value = PAGE_NUMBER, defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
+            @RequestParam(value = PAGE_SIZE, defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = SORT_BY, defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = SORT_DIRECTION, defaultValue = DEFAULT_SORT_DIRECTION, required = false) String sortDir
+    ) {
+        PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> paginatedResponse = participationService.getAllPendingApproval(pageNumber, pageSize, sortBy, sortDir);
+        return ResponseHandler.responseBuilder(PARTICIPATION_RETRIEVAL, HttpStatus.OK, paginatedResponse);
+    }
+    @PutMapping("/approval-status-remark/{id}")
+    public ResponseEntity<Object> updateApprovalStatusAndRemark(@PathVariable Long id, @RequestBody ParticipationApprovalStatusRemarksPostDto participationApprovalStatusRemarksPostDto){
+        ParticipationApprovalStatusRemarksPostDto updatedParticipation = participationService.updateApprovalStatusAndRemark(id,participationApprovalStatusRemarksPostDto);
+        return ResponseHandler.responseBuilder(PARTICIPATION_UPDATION,HttpStatus.OK,updatedParticipation);
     }
 
     @Autowired
