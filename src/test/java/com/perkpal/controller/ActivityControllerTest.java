@@ -5,7 +5,6 @@ import com.perkpal.dto.ActivityCateogryPostDto;
 import com.perkpal.dto.ActivityGetBasedOnCategoryDto;
 import com.perkpal.dto.ActivityPostDto;
 import com.perkpal.service.ActivityService;
-import com.perkpal.response.ResponseHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -61,7 +60,7 @@ public class ActivityControllerTest {
         // Assert the response structure and content
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(Collections.emptyList(), responseBody.get("data"));
-        assertEquals("Requested Activity Details are given here", responseBody.get("message"));
+        assertEquals("Requested Acitivity Details are given here", responseBody.get("message"));
         assertEquals(HttpStatus.OK, responseBody.get("httpStatus"));
 
         // Also verify using MockMvc
@@ -191,7 +190,7 @@ public class ActivityControllerTest {
         // Assert the response structure and content
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(activities, responseBody.get("data"));
-        assertEquals("Requested Activity Details are given here", responseBody.get("message"));
+        assertEquals("Requested Acitivity Details are given here", responseBody.get("message"));
         assertEquals(HttpStatus.OK, responseBody.get("httpStatus"));
 
         // Also verify using MockMvc
