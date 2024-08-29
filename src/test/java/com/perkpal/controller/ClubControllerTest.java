@@ -34,6 +34,13 @@ class ClubControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
+
+    /**
+     * Test case for the GET /clubs endpoint.
+     * Given: The service returns a list of ClubDto objects.
+     * When: The controller's getClubs method is called.
+     * Then: The response should contain the list of clubs with a success message and HTTP status 200 OK.
+     */
     @Test
     void givenRequestForClubs_whenGetClubs_thenReturnsListOfClubs() {
         // Given
@@ -52,6 +59,13 @@ class ClubControllerTest {
         assertEquals(expectedResponse, responseEntity.getBody());
     }
 
+
+    /**
+     * Test case for the POST /clubs endpoint.
+     * Given: A valid ClubDto object is provided for creation.
+     * When: The controller's createClub method is called with this object.
+     * Then: The response should contain the created ClubDto with a success message and HTTP status 201 Created.
+     */
     @Test
     void givenValidClubDto_whenCreateClub_thenReturnsCreatedClub() {
         // Given
@@ -70,6 +84,14 @@ class ClubControllerTest {
         assertEquals(expectedResponse, responseEntity.getBody());
     }
 
+
+
+    /**
+     * Test case for the PUT /clubs/{id} endpoint.
+     * Given: A valid Club object and ID are provided for updating.
+     * When: The controller's updateClub method is called with these parameters.
+     * Then: The response should contain the update confirmation message with HTTP status 200 OK.
+     */
     @Test
     void givenValidClubAndId_whenUpdateClub_thenReturnsUpdateConfirmation() {
         // Given
@@ -89,6 +111,13 @@ class ClubControllerTest {
         assertEquals(expectedResponse, responseEntity.getBody());
     }
 
+
+    /**
+     * Test case for the DELETE /clubs/{id} endpoint.
+     * Given: A valid Club ID is provided for deletion.
+     * When: The controller's deleteClub method is called with this ID.
+     * Then: The response should contain the deletion confirmation message with HTTP status 204 No Content.
+     */
     @Test
     void givenValidClubId_whenDeleteClub_thenReturnsDeletionConfirmation() {
         // Given

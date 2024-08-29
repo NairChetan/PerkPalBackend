@@ -45,6 +45,13 @@ public class ActivityControllerTest {
         objectMapper = new ObjectMapper();
     }
 
+
+    /**
+     * Tests the {@link ActivityController#getActivities()} method when no activities are present.
+     * Verifies that an empty list is returned with an HTTP status of OK (200).
+     *
+     * @throws Exception if an error occurs during the request execution
+     */
     @Test
     public void givenNoActivities_whenGetActivities_thenReturnEmptyListAndOkStatus() throws Exception {
         // Given
@@ -60,7 +67,7 @@ public class ActivityControllerTest {
         // Assert the response structure and content
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(Collections.emptyList(), responseBody.get("data"));
-        assertEquals("Requested Acitivity Details are given here", responseBody.get("message"));
+        assertEquals("Requested Activity Details are given here", responseBody.get("message"));
         assertEquals(HttpStatus.OK, responseBody.get("httpStatus"));
 
         // Also verify using MockMvc
@@ -72,6 +79,13 @@ public class ActivityControllerTest {
     private ObjectMapper objectMapper;
 
 
+
+    /**
+     * Tests the {@link ActivityController#createActivity(ActivityPostDto)} method with a valid
+     * {@link ActivityPostDto} object. Verifies that the created activity is returned with an HTTP status of CREATED (201).
+     *
+     * @throws Exception if an error occurs during the request execution
+     */
     @Test
     public void givenValidActivityPostDto_whenCreateActivity_thenReturnCreatedActivityAndStatus201() throws Exception {
         // Given
@@ -116,6 +130,14 @@ public class ActivityControllerTest {
                 .andExpect(jsonPath("$.data.createdBy").value(1L));
     }
 
+
+    /**
+     * Tests the {@link ActivityController#createActivityWithCategory(ActivityCateogryPostDto)} method with a valid
+     * {@link ActivityCateogryPostDto} object. Verifies that the created activity with a new category is returned with
+     * an HTTP status of CREATED (201).
+     *
+     * @throws Exception if an error occurs during the request execution
+     */
     @Test
     public void givenValidActivityCategoryPostDto_whenCreateActivityWithCategory_thenReturnCreatedActivityAndStatus201() throws Exception {
         // Given
@@ -160,7 +182,12 @@ public class ActivityControllerTest {
                 .andExpect(jsonPath("$.data.createdBy").value(1L));
     }
 
-
+    /**
+     * Tests the {@link ActivityController#getActivitiesByCategoryName(String)} method with a valid category name.
+     * Verifies that a list of activities for the given category is returned with an HTTP status of OK (200).
+     *
+     * @throws Exception if an error occurs during the request execution
+     */
     @Test
     public void givenCategoryName_whenGetActivitiesByCategoryName_thenReturnActivitiesAndStatus200() throws Exception {
         // Given
@@ -190,7 +217,7 @@ public class ActivityControllerTest {
         // Assert the response structure and content
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(activities, responseBody.get("data"));
-        assertEquals("Requested Acitivity Details are given here", responseBody.get("message"));
+        assertEquals("Requested Activity Details are given here", responseBody.get("message"));
         assertEquals(HttpStatus.OK, responseBody.get("httpStatus"));
 
         // Also verify using MockMvc
