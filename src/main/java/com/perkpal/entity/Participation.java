@@ -39,7 +39,6 @@ public class Participation extends BaseEntity {
 
     @Column(name = "approval_date")
     private Timestamp approvalDate;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties("participationApproved")
     @JoinColumn(name = "approved_by", referencedColumnName = "id")

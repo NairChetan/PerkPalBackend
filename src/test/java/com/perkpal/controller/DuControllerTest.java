@@ -38,6 +38,16 @@ class DuControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(duController).build();
     }
 
+
+    /**
+     * Test for the `getDuPointsInDateRange` method in `DuController` when provided with a valid date range.
+     * <p>
+     * This test checks that the controller correctly interacts with the `DuService` and returns the expected
+     * JSON response with the status OK (200). It verifies the controller's behavior when valid parameters are
+     * provided and the service returns a list of `DuChartDataDto` objects.
+     *
+     * @throws Exception If an error occurs while performing the request or asserting the result.
+     */
     @Test
     @DisplayName("Test getDuPointsInDateRange - Success")
     void givenValidDateRange_whenGetDuPointsInDateRange_thenReturnsDuChartData() throws Exception {
