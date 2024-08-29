@@ -175,6 +175,7 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryActivityDto activityDto = new CategoryActivityDto();
         activityDto.setId(activity.getId());
         activityDto.setActivityName(activity.getActivityName());
+        activityDto.setWeightagePerHour(activity.getWeightagePerHour());
         // Map other fields accordingly
         return activityDto;
     }
