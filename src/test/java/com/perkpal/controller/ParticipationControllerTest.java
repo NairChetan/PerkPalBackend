@@ -2,9 +2,6 @@ package com.perkpal.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.perkpal.dto.*;
-import com.perkpal.entity.Activity;
-import com.perkpal.entity.Category;
-import com.perkpal.entity.Employee;
 import com.perkpal.repository.ActivityRepository;
 import com.perkpal.repository.EmployeeRepository;
 import com.perkpal.service.ParticipationService;
@@ -25,7 +22,6 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -60,6 +56,14 @@ public class ParticipationControllerTest {
     }
 
     @Test
+    /**
+     * Tests the creation of a new participation record with a valid ParticipationDto.
+     *
+     * This test ensures that when a valid ParticipationDto is sent in a POST request to create a participation,
+     * the controller returns a 201 Created status with the correct response body.
+     *
+     * @throws Exception If there is any error during the test execution.
+     */
     public void givenValidParticipationDto_whenCreateParticipation_thenReturnsCreated() throws Exception {
         // Given
         ParticipationDto participationDto = new ParticipationDto();
@@ -88,6 +92,14 @@ public class ParticipationControllerTest {
     }
 
     @Test
+    /**
+     * Tests the retrieval of a participation record by its ID.
+     *
+     * This test ensures that when a valid participation ID is sent in a GET request,
+     * the controller returns a 200 OK status with the correct ParticipationDto in the response body.
+     *
+     * @throws Exception If there is any error during the test execution.
+     */
     public void givenExistingParticipationId_whenGetParticipationById_thenReturnsParticipationDto() throws Exception {
         // Given
         Long participationId = 1L;
@@ -116,6 +128,14 @@ public class ParticipationControllerTest {
     }
 
     @Test
+    /**
+     * Tests the retrieval of all participation records.
+     *
+     * This test ensures that when a GET request is sent to fetch all participations,
+     * the controller returns a 200 OK status with a list of ParticipationDto objects in the response body.
+     *
+     * @throws Exception If there is any error during the test execution.
+     */
     public void givenExistingParticipations_whenGetAllParticipations_thenReturnsListOfParticipationDto() throws Exception {
         // Given
         ParticipationDto participationDto1 = new ParticipationDto();
@@ -156,6 +176,14 @@ public class ParticipationControllerTest {
     }
 
     @Test
+    /**
+     * Tests the update of an existing participation record.
+     *
+     * This test ensures that when a valid participation ID and updated ParticipationDto are sent in a PUT request,
+     * the controller returns a 200 OK status with the updated ParticipationDto in the response body.
+     *
+     * @throws Exception If there is any error during the test execution.
+     */
     public void givenExistingParticipationIdAndUpdatedDto_whenUpdateParticipation_thenReturnsUpdatedParticipationDto() throws Exception {
         // Given
         Long participationId = 1L;
@@ -196,6 +224,14 @@ public class ParticipationControllerTest {
     }
 
     @Test
+    /**
+     * Tests the deletion of a participation record by its ID.
+     *
+     * This test ensures that when a valid participation ID is sent in a DELETE request,
+     * the controller returns a 204 No Content status indicating successful deletion.
+     *
+     * @throws Exception If there is any error during the test execution.
+     */
     public void givenExistingParticipationId_whenDeleteParticipation_thenReturnsNoContent() throws Exception {
         // Given
         Long participationId = 1L;
@@ -207,6 +243,14 @@ public class ParticipationControllerTest {
     }
 
     @Test
+    /**
+     * Tests the creation of a new participation record with a ParticipationPostDto.
+     *
+     * This test ensures that when a valid ParticipationPostDto is sent in a POST request,
+     * the controller returns a 201 Created status with a success message.
+     *
+     * @throws Exception If there is any error during the test execution.
+     */
     public void givenValidParticipationPostDto_whenCreateParticipation_thenReturnSuccessMessage() throws Exception {
         // Arrange
         ParticipationPostDto participationPostDto = new ParticipationPostDto();
@@ -228,8 +272,15 @@ public class ParticipationControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Participation created successfully"));
     }
 
-
     @Test
+    /**
+     * Tests the retrieval of participations pending approval with pagination.
+     *
+     * This test ensures that when a GET request is made to fetch paginated pending participations,
+     * the controller returns a 200 OK status with the correct paginated response body.
+     *
+     * @throws Exception If there is any error during the test execution.
+     */
     public void givenPendingParticipationsExist_whenGetParticipationForPendingApproval_thenReturnsPaginatedResponse() throws Exception {
         // Given
         int pageNumber = 0;
@@ -272,7 +323,16 @@ public class ParticipationControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.content[0].activityName").value("E-Learning Certificate"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Participation retrieved successfully"));
     }
+
     @Test
+    /**
+     * Tests the update of the approval status and remarks for a participation record.
+     *
+     * This test ensures that when a valid participation ID and ParticipationApprovalStatusRemarksPostDto are sent in a PUT request,
+     * the controller returns a 200 OK status with the updated approval status and remarks in the response body.
+     *
+     * @throws Exception If there is any error during the test execution.
+     */
     public void givenValidIdAndDto_whenUpdateApprovalStatusAndRemark_thenReturnUpdatedParticipation() throws Exception {
         // Arrange
         Long id = 1L;
@@ -296,8 +356,5 @@ public class ParticipationControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.approvalStatus").value(updatedDto.getApprovalStatus()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.remarks").value(updatedDto.getRemarks()));
     }
-
-
-
-
 }
+

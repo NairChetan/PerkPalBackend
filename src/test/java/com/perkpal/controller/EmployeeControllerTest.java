@@ -32,6 +32,14 @@ class EmployeeControllerTest {
     }
 
     @Test
+    /**
+     * Tests the retrieval of all employee accounts.
+     *
+     * This test ensures that when a GET request is made to fetch all employee accounts,
+     * the controller returns a 200 OK status with a list of EmployeeDto objects.
+     *
+     * @see EmployeeController#getAccounts()
+     */
     void givenEmployees_whenGetAccounts_thenReturnsOkStatus() {
         // Given: Mocked data and service behavior
         List<EmployeeDto> employees = Arrays.asList(new EmployeeDto(), new EmployeeDto());
@@ -46,6 +54,14 @@ class EmployeeControllerTest {
     }
 
     @Test
+    /**
+     * Tests the retrieval of a specific employee account by its ID.
+     *
+     * This test ensures that when a GET request is made with a valid employee ID,
+     * the controller returns a 200 OK status with the corresponding EmployeeDto object.
+     *
+     * @see EmployeeController#getAccountWithId(Long)
+     */
     void givenEmployeeId_whenGetAccountWithId_thenReturnsOkStatus() {
         // Given: Mocked data and service behavior
         Long id = 1L;
@@ -61,6 +77,14 @@ class EmployeeControllerTest {
     }
 
     @Test
+    /**
+     * Tests the update of employee points.
+     *
+     * This test ensures that when a PUT request is made with a valid employee ID and EmployeeUpdatePointsDto,
+     * the controller returns a 200 OK status indicating successful update of employee points.
+     *
+     * @see EmployeeController#updateEmployeePoints(Long, EmployeeUpdatePointsDto)
+     */
     void givenEmployeeUpdatePointsDto_whenUpdateEmployeePoints_thenReturnsOkStatus() {
         // Given: Mocked data and service behavior
         Long id = 1L;
