@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
 public class ActivityServiceImpl implements ActivityService {
     @Autowired
@@ -24,12 +25,30 @@ public class ActivityServiceImpl implements ActivityService {
     private CategoryRepository categoryRepository;
     @Autowired
     private ModelMapper mapper;
+
+    /**
+     * Retrieves a list of all activities from the database.
+     * This method fetches all activities, maps them to their corresponding DTOs, and returns the list.
+     *
+     * @return A list of ActivityDto objects representing all activities in the database.
+     */
+
     @Override
     public List<ActivityDto> getActivity() {
-            List<Activity> activityList = activityRepository.findAll();
-            return activityList.stream().map(activity -> mapper.map(activity, ActivityDto.class)).collect(Collectors.toList());
+        List<Activity> activityList = activityRepository.findAll();
+        return activityList.stream().map(activity -> mapper.map(activity, ActivityDto.class)).collect(Collectors.toList());
     }
 
+
+    /**
+     * Creates a new activity in the database.
+     * This method maps the data from the provided ActivityPostDto to a new Activity entity,
+     * sets the associated category, and saves the new activity to the database.
+     *
+     * @param activityPostDto An object containing the details of the activity to be created, including the associated category ID.
+     * @return An ActivityPostDto object representing the newly created activity with the saved details.
+     * @throws ResourceNotFoundException if the category associated with the given ID is not found.
+     */
     @Override
     public ActivityPostDto createActivity(ActivityPostDto activityPostDto) {
         // Fetch the Category entity
@@ -54,6 +73,17 @@ public class ActivityServiceImpl implements ActivityService {
         ActivityPostDto newActivityPostDto = mapper.map(newActivity, ActivityPostDto.class);
         return newActivityPostDto;
     }
+
+
+    /**
+     * Creates a new activity along with a new category in the database.
+     * This method checks if a category name is provided in the input DTO; if so, it creates a new Category entity.
+     * It then creates a new Activity entity, associates it with the newly created or provided category, and saves it.
+     *
+     * @param activityCateogryPostDto An object containing the details of the activity and the category. The category name must be provided if a new category is to be created.
+     * @return An ActivityCateogryPostDto object representing the newly created activity with the saved details and associated category.
+     * @throws IllegalArgumentException if the category name is not provided when attempting to create a new category.
+     */
     @Override
     public ActivityCateogryPostDto createActivityWithCategory(ActivityCateogryPostDto activityCateogryPostDto) {
         Category category;
@@ -89,6 +119,16 @@ public class ActivityServiceImpl implements ActivityService {
         return mapper.map(newActivity, ActivityCateogryPostDto.class);
     }
 
+
+    /**
+     * Retrieves a list of activities associated with a specific category name from the database.
+     * This method queries activities by their category name, maps them to their corresponding DTOs,
+     * and returns the list.
+     *
+     * @param categoryName The name of the category for which activities are to be retrieved.
+     * @return A list of ActivityGetBasedOnCategoryDto objects representing all activities associated
+     * with the specified category name.
+     */
     @Override
     public List<ActivityGetBasedOnCategoryDto> getActivitiesByCategoryName(String categoryName) {
         List<Activity> activityList = activityRepository.findByCategoryIdCategoryName(categoryName);
