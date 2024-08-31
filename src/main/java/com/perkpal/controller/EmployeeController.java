@@ -3,6 +3,7 @@ package com.perkpal.controller;
 import com.perkpal.dto.*;
 import com.perkpal.response.ResponseHandler;
 import com.perkpal.service.EmployeeService;
+import com.perkpal.service.ParticipationService;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ import static com.perkpal.constants.Message.*;
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private ParticipationService participationService;
 
     /**
      * Handles HTTP GET requests for retrieving a list of employee accounts.
@@ -194,6 +198,19 @@ public class EmployeeController {
             throw new RuntimeException("Invalid date format", e);
         }
     }
+
+    @GetMapping("/participations")
+    public ResponseEntity<Object> getParticipations() {
+        List<ParticipationDto> participationList = participationService.getAllParticipations();
+        return ResponseHandler.responseBuilder(REQUESTED_PARTICIPATION_DETAILS, HttpStatus.OK, participationList);
+    }
+
+    @GetMapping("/employee/{empId}/points/last-four-years")
+    public List<PointsAccumulatedOverYearsDto> getApprovedPointsForLastFourYears(@PathVariable Long empId) {
+        return employeeService.getApprovedPointsForLastFourYears(empId);
+    }
+
+
 
 
 }
