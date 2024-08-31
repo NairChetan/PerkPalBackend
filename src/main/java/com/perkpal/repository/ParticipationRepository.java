@@ -4,6 +4,7 @@ import com.perkpal.dto.EmployeeLeaderBoardDto;
 
 import com.perkpal.dto.ParticipationGetForUserLogDto;
 import com.perkpal.dto.PointsAccumulatedOverYearsDto;
+import com.perkpal.dto.PointsAccumulatedPerMonthDto;
 import com.perkpal.entity.Participation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -104,4 +105,13 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
             "ORDER BY year DESC")
     List<PointsAccumulatedOverYearsDto> findApprovedPointsForLastFourYears(@Param("empId") Long empId);
 
+    @Query("SELECT new com.perkpal.dto.PointsAccumulatedPerMonthDto(MONTH(p.participationDate), SUM(a.weightagePerHour * p.duration / 60)) " +
+            "FROM Participation p " +
+            "JOIN p.activityId a " +
+            "WHERE p.employee.id = :employeeId " +
+            "AND p.approvalStatus = 'approved' " +
+            "AND YEAR(p.participationDate) = YEAR(CURRENT_DATE) " +
+            "GROUP BY MONTH(p.participationDate) " +
+            "ORDER BY MONTH(p.participationDate)")
+    List<PointsAccumulatedPerMonthDto> findApprovedPointsPerMonthForCurrentYear(Long employeeId);
 }

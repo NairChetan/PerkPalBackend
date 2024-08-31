@@ -210,6 +210,11 @@ public class EmployeeController {
         return employeeService.getApprovedPointsForLastFourYears(empId);
     }
 
+    @GetMapping("/{employeeId}/points/current-year-per-month")
+    public List<PointsAccumulatedPerMonthDto> getApprovedPointsPerMonthForCurrentYear(@PathVariable Long employeeId) {
+        return participationService.getApprovedPointsPerMonthForCurrentYear(employeeId);
+    }
+
 
 
 

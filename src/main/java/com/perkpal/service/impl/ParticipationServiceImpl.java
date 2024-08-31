@@ -213,6 +213,8 @@ public class ParticipationServiceImpl implements ParticipationService {
         return mapper.map(updatedParticipation, ParticipationApprovalStatusRemarksPostDto.class);
     }
 
+
+
     @Override
     /**
      * Retrieves user logins by date and employee ID.
@@ -246,5 +248,10 @@ public class ParticipationServiceImpl implements ParticipationService {
         return participations.stream()
                 .map(participation -> mapper.map(participation, ParticipationGetForUserLogDto.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PointsAccumulatedPerMonthDto> getApprovedPointsPerMonthForCurrentYear(Long employeeId) {
+        return participationRepository.findApprovedPointsPerMonthForCurrentYear(employeeId);
     }
 }
