@@ -95,7 +95,7 @@ public class EmployeeController {
     public ResponseEntity<Object> getAccountPointsWithId(@PathVariable(name = "id") Long id) {
         return ResponseHandler.responseBuilder(REQUESTED_EMPLOYEE_DETAILS, HttpStatus.OK, employeeService.getEmployeePointsById(id));
     }
-
+// look for naming standards "getpoints"
     /**
      * Handles HTTP GET requests for retrieving the login information of an employee based on their email address.
      * <p>
