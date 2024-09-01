@@ -45,4 +45,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<EmployeeSummaryDto> findEmployeesByPointsInDateRange(@Param("initialDate") Timestamp initialDate,
                                                               @Param("endDate") Timestamp endDate);
 
+
 }

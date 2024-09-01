@@ -3,6 +3,7 @@ package com.perkpal.controller;
 import com.perkpal.dto.*;
 import com.perkpal.response.ResponseHandler;
 import com.perkpal.service.EmployeeService;
+import com.perkpal.service.ParticipationService;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ import static com.perkpal.constants.Message.*;
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private ParticipationService participationService;
 
     /**
      * Handles HTTP GET requests for retrieving a list of employee accounts.
@@ -95,6 +99,7 @@ public class EmployeeController {
     public ResponseEntity<Object> getAccountPointsWithId(@PathVariable(name = "id") Long id) {
         return ResponseHandler.responseBuilder(REQUESTED_EMPLOYEE_DETAILS, HttpStatus.OK, employeeService.getEmployeePointsById(id));
     }
+// look for naming standards "getpoints"
 
     /**
      * Handles HTTP GET requests for retrieving the login information of an employee based on their email address.
@@ -193,6 +198,22 @@ public class EmployeeController {
             // Handle date parsing error
             throw new RuntimeException("Invalid date format", e);
         }
+    }
+
+    @GetMapping("/participations")
+    public ResponseEntity<Object> getParticipations() {
+        List<ParticipationDto> participationList = participationService.getAllParticipations();
+        return ResponseHandler.responseBuilder(REQUESTED_PARTICIPATION_DETAILS, HttpStatus.OK, participationList);
+    }
+
+    @GetMapping("/employee/{empId}/points/last-four-years")
+    public List<PointsAccumulatedOverYearsDto> getApprovedPointsForLastFourYears(@PathVariable Long empId) {
+        return employeeService.getApprovedPointsForLastFourYears(empId);
+    }
+
+    @GetMapping("/{employeeId}/points/current-year-per-month")
+    public List<PointsAccumulatedPerMonthDto> getApprovedPointsPerMonthForCurrentYear(@PathVariable Long employeeId) {
+        return participationService.getApprovedPointsPerMonthForCurrentYear(employeeId);
     }
 
 

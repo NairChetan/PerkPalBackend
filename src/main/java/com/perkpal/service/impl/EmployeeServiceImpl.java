@@ -190,4 +190,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<PointsAccumulatedOverYearsDto> getApprovedPointsForLastFourYears(Long empId) {
+        return participationRepository.findApprovedPointsForLastFourYears(empId);
+    }
+
+
 }
