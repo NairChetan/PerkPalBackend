@@ -44,5 +44,4 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "ORDER BY SUM((p.duration / 60.0) * a.weightagePerHour) DESC")
     List<EmployeeSummaryDto> findEmployeesByPointsInDateRange(@Param("initialDate") Timestamp initialDate,
                                                               @Param("endDate") Timestamp endDate);
-
 }
