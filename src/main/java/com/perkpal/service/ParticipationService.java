@@ -1,6 +1,7 @@
 package com.perkpal.service;
 
 import com.perkpal.dto.*;
+import com.perkpal.entity.Participation;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,4 +32,5 @@ public interface ParticipationService {
     ParticipationApprovalStatusRemarksPostDto updateApprovalStatusAndRemark(Long id,ParticipationApprovalStatusRemarksPostDto participationApprovalStatusRemarksPostDto);
 
     List<PointsAccumulatedPerMonthDto> getApprovedPointsPerMonthForCurrentYear(Long employeeId);
+    Participation updateParticipation(Long id, ParticipationPutForUserLogDto participationPutForUserLogDto);
 }

@@ -1,6 +1,7 @@
 package com.perkpal.controller;
 
 import com.perkpal.dto.*;
+import com.perkpal.entity.Participation;
 import com.perkpal.response.ResponseHandler;
 import com.perkpal.service.ParticipationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -240,5 +241,14 @@ public class ParticipationController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format. Please use 'yyyy-MM-dd'.");
         }
 
+    }
+
+    @PutMapping("userLog/{id}")
+    public ResponseEntity<Participation> updateParticipation(
+            @PathVariable("id") Long id,
+            @RequestBody ParticipationPutForUserLogDto participationPutForUserLogDto) {
+
+        Participation updatedParticipation = participationService.updateParticipation(id, participationPutForUserLogDto);
+        return new ResponseEntity<>(updatedParticipation, HttpStatus.OK);
     }
 }

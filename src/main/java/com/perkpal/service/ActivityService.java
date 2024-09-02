@@ -1,9 +1,6 @@
 package com.perkpal.service;
 
-import com.perkpal.dto.ActivityCateogryPostDto;
-import com.perkpal.dto.ActivityDto;
-import com.perkpal.dto.ActivityGetBasedOnCategoryDto;
-import com.perkpal.dto.ActivityPostDto;
+import com.perkpal.dto.*;
 
 import java.util.List;
 
@@ -12,4 +9,6 @@ public interface ActivityService {
     ActivityPostDto createActivity(ActivityPostDto activityPostDto);
     ActivityCateogryPostDto createActivityWithCategory(ActivityCateogryPostDto activityCateogryPostDto);
     List<ActivityGetBasedOnCategoryDto> getActivitiesByCategoryName(String categoryName);
+    void deleteActivity(Long id);
+    ActivityUpdateForAdminDto updateActivity(Long id, ActivityUpdateForAdminDto activityUpdateForAdminDto);
 }
