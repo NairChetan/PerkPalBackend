@@ -262,6 +262,5 @@ public class ParticipationController {
 
         return ResponseHandler.responseBuilder("Participation search successful", HttpStatus.OK, paginatedResponse);
     }
-
 }
 
