@@ -4,6 +4,7 @@ import com.perkpal.dto.*;
 import com.perkpal.entity.Participation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.perkpal.entity.Participation;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,5 +39,6 @@ public interface ParticipationService {
     PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> searchParticipations(
             String activityName, String firstName, String lastName, Integer employeeId,
             int pageNumber, int pageSize, String sortBy, String sortDir);
+    Participation updateParticipation(Long id, ParticipationPutForUserLogDto participationPutForUserLogDto);
 }
 

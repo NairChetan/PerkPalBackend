@@ -12,6 +12,7 @@ public class Message {
     public static final String CATEGORY_UPDATION = "Category created successfully";
     public static final String CATEGORY_RETRIEVAL = "Category retrieved successfully";
     public static final String CATEGORY_DELETE = "Category deleted successfully";
+    public static final String ACTIVITY_DELETE = "Activity deleted successfully";
     public static final String CLUB_CREATION = "Club created successfully";
     public static final String CLUB_UPDATION = "Club updated successfully";
     public static final String CLUB_DELETION = "Club deleted successfully";
