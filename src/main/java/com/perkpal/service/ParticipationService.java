@@ -1,6 +1,9 @@
 package com.perkpal.service;
 
 import com.perkpal.dto.*;
+import com.perkpal.entity.Participation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,4 +34,9 @@ public interface ParticipationService {
     ParticipationApprovalStatusRemarksPostDto updateApprovalStatusAndRemark(Long id,ParticipationApprovalStatusRemarksPostDto participationApprovalStatusRemarksPostDto);
 
     List<PointsAccumulatedPerMonthDto> getApprovedPointsPerMonthForCurrentYear(Long employeeId);
+
+    PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> searchParticipations(
+            String activityName, String firstName, String lastName, Integer employeeId,
+            int pageNumber, int pageSize, String sortBy, String sortDir);
 }
+

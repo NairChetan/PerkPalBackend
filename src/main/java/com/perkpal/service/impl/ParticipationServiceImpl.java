@@ -254,4 +254,16 @@ public class ParticipationServiceImpl implements ParticipationService {
     public List<PointsAccumulatedPerMonthDto> getApprovedPointsPerMonthForCurrentYear(Long employeeId) {
         return participationRepository.findApprovedPointsPerMonthForCurrentYear(employeeId);
     }
+
+    @Override
+    public PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> searchParticipations(
+            String activityName, String firstName, String lastName, Integer employeeId,
+            int pageNumber, int pageSize, String sortBy, String sortDir) {
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.fromString(sortDir), sortBy));
+        Page<ParticipationDetailsFetchForPendingApprovalDto> pageResult = participationRepository.searchParticipation(
+                activityName, firstName, lastName, employeeId, pageable);
+
+        return new PaginatedResponse<>(pageResult.getContent(), pageResult.getTotalPages(), pageResult.getTotalElements(), pageResult.getSize(), pageResult.getNumber());
+    }
 }
