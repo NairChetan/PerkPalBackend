@@ -1,9 +1,6 @@
 package com.perkpal.service.impl;
 
-import com.perkpal.dto.ActivityCateogryPostDto;
-import com.perkpal.dto.ActivityDto;
-import com.perkpal.dto.ActivityGetBasedOnCategoryDto;
-import com.perkpal.dto.ActivityPostDto;
+import com.perkpal.dto.*;
 import com.perkpal.entity.Activity;
 import com.perkpal.entity.Category;
 import com.perkpal.exception.ResourceNotFoundException;
@@ -139,5 +136,27 @@ public class ActivityServiceImpl implements ActivityService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void deleteActivity(Long id) {
+        Activity activity = activityRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Activity not found"));
+        activityRepository.delete(activity);
+    }
 
+    @Override
+    public ActivityUpdateForAdminDto updateActivity(Long id, ActivityUpdateForAdminDto activityUpdateForAdminDto) {
+        // Fetch the existing activity
+        Activity activity = activityRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Activity", "id", id));
+
+        // Update the activity fields
+        activity.setDescription(activityUpdateForAdminDto.getDescription());
+        activity.setWeightagePerHour(activityUpdateForAdminDto.getWeightagePerHour());
+
+        // Save the updated activity
+        Activity updatedActivity = activityRepository.save(activity);
+
+        // Map the updated activity back to the DTO and return
+        return mapper.map(updatedActivity, ActivityUpdateForAdminDto.class);
+    }
 }

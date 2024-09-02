@@ -246,6 +246,15 @@ public class ParticipationController {
         }
 
     }
+
+    @PutMapping("userLog/{id}")
+    public ResponseEntity<Participation> updateParticipation(
+            @PathVariable("id") Long id,
+            @RequestBody ParticipationPutForUserLogDto participationPutForUserLogDto) {
+
+        Participation updatedParticipation = participationService.updateParticipation(id, participationPutForUserLogDto);
+        return new ResponseEntity<>(updatedParticipation, HttpStatus.OK);
+    }
     @GetMapping("/search")
     public ResponseEntity<Object> searchParticipations(
             @RequestParam(value = "activityName", required = false) String activityName,
@@ -263,4 +272,3 @@ public class ParticipationController {
         return ResponseHandler.responseBuilder("Participation search successful", HttpStatus.OK, paginatedResponse);
     }
 }
-

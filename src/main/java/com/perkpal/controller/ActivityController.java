@@ -1,9 +1,7 @@
 package com.perkpal.controller;
 
-import com.perkpal.dto.ActivityCateogryPostDto;
-import com.perkpal.dto.ActivityDto;
-import com.perkpal.dto.ActivityGetBasedOnCategoryDto;
-import com.perkpal.dto.ActivityPostDto;
+import com.perkpal.dto.*;
+import com.perkpal.entity.Activity;
 import com.perkpal.response.ResponseHandler;
 import com.perkpal.service.ActivityService;
 import jakarta.validation.Valid;
@@ -78,5 +76,27 @@ public class ActivityController {
     @GetMapping("/category/{categoryName}")
     public ResponseEntity<Object> getActivitiesByCategoryName(@PathVariable String categoryName) {
         return ResponseHandler.responseBuilder(REQUESTED_ACTIVITY_DETAILS, HttpStatus.OK, activityService.getActivitiesByCategoryName(categoryName));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteActivity(@PathVariable Long id) {
+        activityService.deleteActivity(id);
+        return ResponseHandler.responseBuilder(ACTIVITY_DELETE, HttpStatus.NO_CONTENT, null);
+    }
+
+
+    /**
+     * Updates an existing activity in the database.
+     * This function is typically used to modify activity details from the admin side.
+     *
+     * @param id The ID of the activity to be updated.
+     * @param activityUpdateForAdminDto An object containing the new details for the activity.
+     * @return A ResponseEntity containing a success message, HTTP status, and the updated activity details.
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateActivity(@PathVariable Long id,
+                                                 @RequestBody ActivityUpdateForAdminDto activityUpdateForAdminDto) {
+        ActivityUpdateForAdminDto updatedActivity = activityService.updateActivity(id, activityUpdateForAdminDto);
+        return ResponseHandler.responseBuilder("Activity updated successfully", HttpStatus.OK, updatedActivity);
     }
 }
