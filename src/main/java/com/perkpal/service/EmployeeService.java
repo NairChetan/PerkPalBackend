@@ -23,6 +23,6 @@ public interface EmployeeService {
 
     List<EmployeeDto> getEmployeesByPointsInDateRangeWithEmployeeDto(Timestamp initialDate, Timestamp endDate);
 
-
+    List<PointsAccumulatedOverYearsDto> getApprovedPointsForLastFourYears(Long empId);
 }
 

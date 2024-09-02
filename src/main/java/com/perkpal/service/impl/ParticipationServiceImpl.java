@@ -215,6 +215,8 @@ public class ParticipationServiceImpl implements ParticipationService {
         return mapper.map(updatedParticipation, ParticipationApprovalStatusRemarksPostDto.class);
     }
 
+
+
     @Override
     public Participation updateParticipation(Long id, ParticipationPutForUserLogDto participationPutForUserLogDto) {
         // Find the existing Participation entry by ID
@@ -263,5 +265,10 @@ public class ParticipationServiceImpl implements ParticipationService {
         return participations.stream()
                 .map(participation -> mapper.map(participation, ParticipationGetForUserLogDto.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PointsAccumulatedPerMonthDto> getApprovedPointsPerMonthForCurrentYear(Long employeeId) {
+        return participationRepository.findApprovedPointsPerMonthForCurrentYear(employeeId);
     }
 }
