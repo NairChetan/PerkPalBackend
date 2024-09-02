@@ -31,4 +31,5 @@ public interface ParticipationService {
 
     ParticipationApprovalStatusRemarksPostDto updateApprovalStatusAndRemark(Long id,ParticipationApprovalStatusRemarksPostDto participationApprovalStatusRemarksPostDto);
 
+    Participation updateParticipation(Long id, ParticipationPutForUserLogDto participationPutForUserLogDto);
 }

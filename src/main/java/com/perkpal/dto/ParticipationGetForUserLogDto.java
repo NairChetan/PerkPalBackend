@@ -19,6 +19,7 @@ public class ParticipationGetForUserLogDto{
         private String remarks;
         private String proof;
         private Timestamp participationDate;
+        private Long id;
 
 
 

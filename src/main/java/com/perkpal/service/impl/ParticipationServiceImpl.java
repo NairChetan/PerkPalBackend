@@ -15,7 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -186,8 +188,8 @@ public class ParticipationServiceImpl implements ParticipationService {
         participation.setDescription(participationPostDto.getDescription());
         participation.setDuration(participationPostDto.getDuration());
         participation.setCreatedBy(participationPostDto.getCreatedBy());
+        participation.setProofUrl(participationPostDto.getProofUrl());
         participation.setEmployee(employee);
-
         // Save the participation record
         participationRepository.save(participation);
     }
@@ -211,6 +213,21 @@ public class ParticipationServiceImpl implements ParticipationService {
         mapper.map(participationApprovalStatusRemarksPostDto, participation);
         Participation updatedParticipation = participationRepository.save(participation);
         return mapper.map(updatedParticipation, ParticipationApprovalStatusRemarksPostDto.class);
+    }
+
+    @Override
+    public Participation updateParticipation(Long id, ParticipationPutForUserLogDto participationPutForUserLogDto) {
+        // Find the existing Participation entry by ID
+        Participation participation = participationRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participation not found"));
+
+        // Update fields from DTO
+        participation.setProofUrl(participationPutForUserLogDto.getProofUrl());
+        participation.setDescription(participationPutForUserLogDto.getDescription());
+        participation.setDuration(participationPutForUserLogDto.getDuration());
+
+        // Save the updated entity
+        return participationRepository.save(participation);
     }
 
     @Override
