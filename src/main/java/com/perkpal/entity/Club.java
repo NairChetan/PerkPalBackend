@@ -26,4 +26,5 @@ public class Club extends BaseEntity {
     private Long FinalThreshold;
     @OneToMany(mappedBy = "clubId", cascade = CascadeType.ALL, targetEntity = Employee.class)
     private Set<Employee> employeeClub = new HashSet<>();
+
 }

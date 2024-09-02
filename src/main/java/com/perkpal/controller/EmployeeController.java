@@ -215,7 +215,4 @@ public class EmployeeController {
         return participationService.getApprovedPointsPerMonthForCurrentYear(employeeId);
     }
 
-
-
-
 }
