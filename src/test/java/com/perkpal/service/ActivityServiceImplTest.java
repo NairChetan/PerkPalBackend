@@ -294,5 +294,3 @@ public class ActivityServiceImplTest {
         assertEquals(new ArrayList<>(), result);
     }
 }
-
-
