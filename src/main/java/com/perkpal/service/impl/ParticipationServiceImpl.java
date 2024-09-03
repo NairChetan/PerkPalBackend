@@ -189,6 +189,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         participation.setDuration(participationPostDto.getDuration());
         participation.setCreatedBy(participationPostDto.getCreatedBy());
         participation.setProofUrl(participationPostDto.getProofUrl());
+        participation.setParticipationDate(participationPostDto.getParticipationDate());
         participation.setEmployee(employee);
         // Save the participation record
         participationRepository.save(participation);

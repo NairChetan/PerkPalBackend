@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "participation")
@@ -33,7 +34,7 @@ public class Participation extends BaseEntity {
 
     @Column(name = "remarks")
     private String remarks;
-    @CreationTimestamp
+
     @Column(name = "participation_date", nullable = false)
     private Timestamp participationDate;
 
