@@ -1,6 +1,7 @@
 package com.perkpal.repository;
 
 import com.perkpal.dto.EmployeeActivitySummaryDto;
+import com.perkpal.dto.EmployeeParticipationDetailsDto;
 import com.perkpal.dto.EmployeeSummaryDto;
 import com.perkpal.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -51,23 +52,21 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     /**
      * Retrieves a summary of employees who participated in a specific activity within a date range, ordered by their points.
      *
-     * @param activityId The ID of the activity.
      * @param initialDate The start date of the date range for filtering participation records (inclusive).
      * @param endDate The end date of the date range for filtering participation records (inclusive).
      * @return A list of {@link EmployeeActivitySummaryDto} objects containing the summary of employees with their points.
      */
-    @Query("SELECT new com.perkpal.dto.EmployeeActivitySummaryDto(e.id, e.firstName, e.lastName, e.designation, e.email, " +
-            "SUM((p.duration / 60.0) * a.weightagePerHour), e.photoUrl, e.duId.departmentName) " +
+    @Query("SELECT e.id AS employeeId, e.firstName, e.lastName, e.duId.departmentName AS duDepartmentName, e.clubId.clubName AS clubName, e.photoUrl, " +
+            "p.id AS participationId, a.activityName, p.duration, p.remarks, p.participationDate, p.approvalDate, p.description, p.proofUrl " +
             "FROM Employee e " +
             "JOIN e.participation p " +
             "JOIN p.activityId a " +
             "WHERE p.approvalStatus = 'approved' " +
-            "AND p.activityId.id = :activityId " +
             "AND p.participationDate BETWEEN :initialDate AND :endDate " +
-            "GROUP BY e.id, e.firstName, e.lastName, e.designation, e.email, e.photoUrl, e.duId.departmentName " +
-            "ORDER BY SUM((p.duration / 60.0) * a.weightagePerHour) DESC")
-    List<EmployeeActivitySummaryDto> findEmployeesByActivityAndDateRange(@Param("activityId") Long activityId,
-                                                                         @Param("initialDate") Timestamp initialDate,
-                                                                         @Param("endDate") Timestamp endDate);
-
+            "AND a.activityName = :activityName " +
+            "ORDER BY e.id, p.participationDate")
+    List<Object[]> findEmployeeParticipationDetailsByActivityAndDateRange(
+            @Param("initialDate") Timestamp initialDate,
+            @Param("endDate") Timestamp endDate,
+            @Param("activityName") String activityName);
 }

@@ -8,8 +8,10 @@ import com.perkpal.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.HashMap;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -198,10 +200,41 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public List<EmployeeActivitySummaryDto> getEmployeesByActivityAndDateRange(Long activityId, Timestamp initialDate, Timestamp endDate) {
-        return employeeRepository.findEmployeesByActivityAndDateRange(activityId, initialDate, endDate);
+    public List<EmployeeParticipationDetailsDto> getEmployeeParticipationDetailsByActivityAndDateRange(
+            Timestamp initialDate, Timestamp endDate, String activityName) {
+        List<Object[]> results = employeeRepository.findEmployeeParticipationDetailsByActivityAndDateRange(initialDate, endDate, activityName);
+
+        Map<Long, EmployeeParticipationDetailsDto> employeeMap = new HashMap<>();
+
+        for (Object[] result : results) {
+            Long employeeId = ((Number) result[0]).longValue();
+            String firstName = (String) result[1];
+            String lastName = (String) result[2];
+            String duDepartmentName = (String) result[3];
+            String clubName = (String) result[4];
+            String photoUrl = (String) result[5];
+            Long participationId = ((Number) result[6]).longValue();
+            String activityNameResult = (String) result[7];
+            int duration = ((Number) result[8]).intValue();
+            String remarks = (String) result[9];
+            Timestamp participationDate = (Timestamp) result[10];
+            Timestamp approvalDate = (Timestamp) result[11];
+            String description = (String) result[12];
+            String proofUrl = (String) result[13];
+
+            ParticipationDetailDto participationDetailDto = new ParticipationDetailDto(participationId, activityNameResult, duration, remarks, participationDate, approvalDate, description, proofUrl);
+
+            if (employeeMap.containsKey(employeeId)) {
+                EmployeeParticipationDetailsDto employeeDto = employeeMap.get(employeeId);
+                employeeDto.getParticipations().add(participationDetailDto);
+            } else {
+                List<ParticipationDetailDto> participations = new ArrayList<>();
+                participations.add(participationDetailDto);
+                EmployeeParticipationDetailsDto employeeDto = new EmployeeParticipationDetailsDto(employeeId, firstName, lastName, duDepartmentName, clubName, photoUrl, participations);
+                employeeMap.put(employeeId, employeeDto);
+            }
+        }
+
+        return new ArrayList<>(employeeMap.values());
     }
-
-
-
 }

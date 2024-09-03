@@ -33,5 +33,6 @@ public interface EmployeeService {
      * @param endDate The end of the date range.
      * @return A {@link List} of {@link EmployeeActivitySummaryDto} containing detailed information of employees.
      */
-    List<EmployeeActivitySummaryDto> getEmployeesByActivityAndDateRange(Long activityId, Timestamp initialDate, Timestamp endDate);
+    List<EmployeeParticipationDetailsDto> getEmployeeParticipationDetailsByActivityAndDateRange(
+            Timestamp initialDate, Timestamp endDate, String activityName);
 }

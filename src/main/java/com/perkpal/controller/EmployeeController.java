@@ -216,21 +216,23 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("/api/v1/employees/by-activity")
-    public List<EmployeeActivitySummaryDto> getEmployeesByActivityAndDateRange(
-            @RequestParam("activityId") Long activityId,
+    @GetMapping("/api/v1/employees/participation-details")
+    public List<EmployeeParticipationDetailsDto> getEmployeeParticipationDetails(
             @RequestParam("initialDate") String initialDateStr,
-            @RequestParam("endDate") String endDateStr) {
+            @RequestParam("endDate") String endDateStr,
+            @RequestParam("activityName") String activityName) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             Timestamp initialDate = new Timestamp(dateFormat.parse(initialDateStr).getTime());
             Timestamp endDate = new Timestamp(dateFormat.parse(endDateStr).getTime());
-            return employeeService.getEmployeesByActivityAndDateRange(activityId, initialDate, endDate);
+            return employeeService.getEmployeeParticipationDetailsByActivityAndDateRange(initialDate, endDate, activityName);
         } catch (ParseException e) {
             // Handle date parsing error
             throw new RuntimeException("Invalid date format", e);
         }
     }
+
+
 
 
 
