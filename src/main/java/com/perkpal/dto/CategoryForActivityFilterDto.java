@@ -11,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryForActivityFilterDto {
-
+    private Long id;
     private String categoryName;
 }
