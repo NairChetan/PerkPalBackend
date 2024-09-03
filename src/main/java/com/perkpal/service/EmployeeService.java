@@ -24,5 +24,14 @@ public interface EmployeeService {
     List<EmployeeDto> getEmployeesByPointsInDateRangeWithEmployeeDto(Timestamp initialDate, Timestamp endDate);
 
     List<PointsAccumulatedOverYearsDto> getApprovedPointsForLastFourYears(Long empId);
-}
 
+    /**
+     * Retrieves a list of employees by activity within a specified date range.
+     *
+     * @param activityId The ID of the activity.
+     * @param initialDate The start of the date range.
+     * @param endDate The end of the date range.
+     * @return A {@link List} of {@link EmployeeActivitySummaryDto} containing detailed information of employees.
+     */
+    List<EmployeeActivitySummaryDto> getEmployeesByActivityAndDateRange(Long activityId, Timestamp initialDate, Timestamp endDate);
+}

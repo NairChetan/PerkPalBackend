@@ -197,4 +197,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
+    @Override
+    public List<EmployeeActivitySummaryDto> getEmployeesByActivityAndDateRange(Long activityId, Timestamp initialDate, Timestamp endDate) {
+        return employeeRepository.findEmployeesByActivityAndDateRange(activityId, initialDate, endDate);
+    }
+
+
+
 }
