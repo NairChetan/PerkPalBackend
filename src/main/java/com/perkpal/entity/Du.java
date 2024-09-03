@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,12 +15,14 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Du{
+public class Du {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "department_name",nullable = false)
+
+    @Column(name = "department_name", nullable = false)
     private String departmentName;
-    @OneToMany(mappedBy = "duId",cascade = CascadeType.ALL,targetEntity = Employee.class)
+
+    @OneToMany(mappedBy = "duId", cascade = CascadeType.ALL, targetEntity = Employee.class)
     private Set<Employee> employees = new HashSet<>();
 }

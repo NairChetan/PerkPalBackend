@@ -48,7 +48,7 @@ public class Employee extends BaseEntity {
     private String photoUrl;
     @Column(name = "last_login")
     private Timestamp lastLogin;
-    @OneToMany(mappedBy = "empId",cascade = CascadeType.ALL,targetEntity = Participation.class)
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL,targetEntity = Participation.class)
     private Set<Participation> participation = new HashSet<>();
     @OneToMany(mappedBy = "approvedBy",cascade = CascadeType.ALL,targetEntity = Participation.class)
     private Set<Participation> participationApproved = new HashSet<>();

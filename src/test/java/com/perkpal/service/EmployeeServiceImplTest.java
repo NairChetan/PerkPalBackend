@@ -43,6 +43,12 @@ class EmployeeServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
+
+    /**
+     * Test for the `getEmployees` method in `EmployeeServiceImpl` to ensure it returns a list of EmployeeDto objects
+     * when there are employees in the repository. This test verifies that the service method correctly interacts
+     * with the repository and mapper to produce the expected result.
+     */
     // Test methods will go here
     @Test
     void testGetEmployees() {
@@ -129,6 +135,12 @@ class EmployeeServiceImplTest {
         assertEquals(employeeDto2, result.get(1));
         verify(employeeRepository, times(1)).findAll();
     }
+
+    /**
+     * Test for the `getEmployeeById` method in `EmployeeServiceImpl` to ensure it returns an EmployeeDto when
+     * an employee with the specified ID exists. This test verifies that the service correctly handles the case where
+     * an employee is found.
+     */
     @Test
     public void givenEmployeeExists_whenGetEmployeeById_thenReturnEmployeeDto() {
         Long employeeId = 1L;
@@ -147,6 +159,12 @@ class EmployeeServiceImplTest {
         then(result).isEqualTo(employeeDto); // Verify the result matches the expected EmployeeDto
     }
 
+
+    /**
+     * Test for the `getEmployeeById` method in `EmployeeServiceImpl` to ensure it returns null when no employee
+     * is found with the specified ID. This test verifies that the service correctly handles the case where an employee
+     * does not exist.
+     */
     @Test
     public void givenEmployeeDoesNotExist_whenGetEmployeeById_thenReturnNull() {
         Long employeeId = 1L;
@@ -160,6 +178,12 @@ class EmployeeServiceImplTest {
         // Then
         then(result).isNull(); // Verify the result is null when no employee is found
     }
+
+    /**
+     * Test for the `updateEmployeePoints` method in `EmployeeServiceImpl` to ensure it correctly updates the points
+     * of an existing employee. This test verifies that the service method updates the employee's total and redeemable
+     * points as specified in the update DTO.
+     */
     @Test
     public void givenEmployeeExists_whenUpdateEmployeePoints_thenUpdatePoints() {
         Long employeeId = 1L;
@@ -188,6 +212,12 @@ class EmployeeServiceImplTest {
         assertThat(result.getRedeemablePoints()).isEqualTo(75);
     }
 
+
+    /**
+     * Test for the `updateEmployeePoints` method in `EmployeeServiceImpl` to ensure it throws an exception when trying
+     * to update points for a non-existent employee. This test verifies that the service handles cases where the employee
+     * is not found correctly by throwing an appropriate exception.
+     */
     @Test
     public void givenEmployeeDoesNotExist_whenUpdateEmployeePoints_thenThrowException() {
         Long employeeId = 1L;
