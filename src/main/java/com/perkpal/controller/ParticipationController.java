@@ -251,4 +251,21 @@ public class ParticipationController {
         Participation updatedParticipation = participationService.updateParticipation(id, participationPutForUserLogDto);
         return new ResponseEntity<>(updatedParticipation, HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Object> searchParticipations(
+            @RequestParam(value = "activityName", required = false) String activityName,
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(value = "employeeId", required = false) Integer employeeId,
+            @RequestParam(value = PAGE_NUMBER, defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
+            @RequestParam(value = PAGE_SIZE, defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = SORT_BY, defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = SORT_DIRECTION, defaultValue = DEFAULT_SORT_DIRECTION, required = false) String sortDir
+    ) {
+        PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> paginatedResponse =
+                participationService.searchParticipations(activityName, firstName, lastName, employeeId, pageNumber, pageSize, sortBy, sortDir);
+
+        return ResponseHandler.responseBuilder("Participation search successful", HttpStatus.OK, paginatedResponse);
+    }
 }
