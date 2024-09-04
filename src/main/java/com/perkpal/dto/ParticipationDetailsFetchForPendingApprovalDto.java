@@ -17,6 +17,7 @@ public class ParticipationDetailsFetchForPendingApprovalDto {
     private String activityName;
     private String activityIdCategoryName;
     private Timestamp participationDate;
+    private Timestamp approvalDate;
     private int duration;
     private String description;
     private String proofUrl;

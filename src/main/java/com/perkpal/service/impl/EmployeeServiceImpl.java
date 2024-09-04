@@ -212,16 +212,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             String lastName = (String) result[2];
             String duDepartmentName = (String) result[3];
             String clubName = (String) result[4];
-            Double totalPoints = (Double)result[5];
-            String photoUrl = (String) result[6];
-            Long participationId = ((Number) result[7]).longValue();
-            String activityNameResult = (String) result[8];
-            int duration = ((Number) result[9]).intValue();
-            String remarks = (String) result[10];
-            Timestamp participationDate = (Timestamp) result[11];
-            Timestamp approvalDate = (Timestamp) result[12];
-            String description = (String) result[13];
-            String proofUrl = (String) result[14];
+            Long participationId = ((Number) result[5]).longValue();
+            String activityNameResult = (String) result[6];
+            int duration = ((Number) result[7]).intValue();
+            String remarks = (String) result[8];
+            Timestamp participationDate = (Timestamp) result[9];
+            Timestamp approvalDate = (Timestamp) result[10];
+            String description = (String) result[11];
+            String proofUrl = (String) result[12];
 
             ParticipationDetailDto participationDetailDto = new ParticipationDetailDto(participationId, activityNameResult, duration, remarks, participationDate, approvalDate, description, proofUrl);
 
@@ -231,7 +229,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             } else {
                 List<ParticipationDetailDto> participations = new ArrayList<>();
                 participations.add(participationDetailDto);
-                EmployeeParticipationDetailsDto employeeDto = new EmployeeParticipationDetailsDto(employeeId, firstName, lastName, duDepartmentName, clubName, totalPoints,photoUrl, participations);
+                EmployeeParticipationDetailsDto employeeDto = new EmployeeParticipationDetailsDto(employeeId, firstName, lastName, duDepartmentName, clubName, participations);
                 employeeMap.put(employeeId, employeeDto);
             }
         }
