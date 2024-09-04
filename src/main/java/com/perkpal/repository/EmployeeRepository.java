@@ -56,15 +56,19 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
      * @param endDate The end date of the date range for filtering participation records (inclusive).
      * @return A list of {@link EmployeeActivitySummaryDto} objects containing the summary of employees with their points.
      */
-    @Query("SELECT e.id AS employeeId, e.firstName, e.lastName, e.duId.departmentName AS duDepartmentName, e.clubId.clubName AS clubName, e.photoUrl, " +
-            "p.id AS participationId, a.activityName, p.duration, p.remarks, p.participationDate, p.approvalDate, p.description, p.proofUrl " +
-            "FROM Employee e " +
-            "JOIN e.participation p " +
-            "JOIN p.activityId a " +
-            "WHERE p.approvalStatus = 'approved' " +
-            "AND p.participationDate BETWEEN :initialDate AND :endDate " +
-            "AND a.activityName = :activityName " +
-            "ORDER BY e.id, p.participationDate")
+    @Query("SELECT e.id AS employeeId, e.firstName, e.lastName, e.duId.departmentName AS duDepartmentName, e.clubId.clubName AS clubName, \n" +
+            "       SUM((p.duration / 60.0) * a.weightagePerHour) AS totalWeightedDuration, \n" +
+            "       e.photoUrl, p.id AS participationId, a.activityName, p.duration, p.remarks, p.participationDate, p.approvalDate, \n" +
+            "       p.description, p.proofUrl\n" +
+            "FROM Employee e\n" +
+            "JOIN e.participation p\n" +
+            "JOIN p.activityId a\n" +
+            "WHERE p.approvalStatus = 'approved'\n" +
+            "AND p.participationDate BETWEEN :initialDate AND :endDate\n" +
+            "AND a.activityName = :activityName\n" +
+            "GROUP BY e.id, e.firstName, e.lastName, e.duId.departmentName, e.clubId.clubName, e.photoUrl, p.id, a.activityName, \n" +
+            "         p.duration, p.remarks, p.participationDate, p.approvalDate, p.description, p.proofUrl\n" +
+            "ORDER BY SUM((p.duration / 60.0) * a.weightagePerHour) DESC")
     List<Object[]> findEmployeeParticipationDetailsByActivityAndDateRange(
             @Param("initialDate") Timestamp initialDate,
             @Param("endDate") Timestamp endDate,
