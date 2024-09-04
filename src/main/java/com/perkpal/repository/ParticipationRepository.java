@@ -1,9 +1,7 @@
 package com.perkpal.repository;
 
-import com.perkpal.dto.EmployeeLeaderBoardDto;
-import com.perkpal.dto.ParticipationDetailsFetchForPendingApprovalDto;
-import com.perkpal.dto.PointsAccumulatedOverYearsDto;
-import com.perkpal.dto.PointsAccumulatedPerMonthDto;
+import com.perkpal.dto.*;
+
 import com.perkpal.entity.Participation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
