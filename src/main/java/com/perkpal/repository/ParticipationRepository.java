@@ -1,7 +1,9 @@
 package com.perkpal.repository;
 
-import com.perkpal.dto.*;
-
+import com.perkpal.dto.EmployeeLeaderBoardDto;
+import com.perkpal.dto.ParticipationDetailsFetchForPendingApprovalDto;
+import com.perkpal.dto.PointsAccumulatedOverYearsDto;
+import com.perkpal.dto.PointsAccumulatedPerMonthDto;
 import com.perkpal.entity.Participation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -112,15 +114,16 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
             "ORDER BY MONTH(p.participationDate)")
     List<PointsAccumulatedPerMonthDto> findApprovedPointsPerMonthForCurrentYear(Long employeeId);
 
-    @Query("SELECT new com.perkpal.dto.ParticipationDetailsFetchForPendingApprovalDto(p.id, e.firstName, e.lastName, e.id, a.activityName, a.categoryId.categoryName, p.participationDate, p.duration, p.description, p.proofUrl) " +
+    @Query("SELECT new com.perkpal.dto.ParticipationDetailsFetchForPendingApprovalDto(p.id, e.firstName, e.lastName, e.id, a.activityName, a.categoryId.categoryName, p.participationDate, p.approvalDate, p.duration, p.description, p.proofUrl) " +
             "FROM Participation p " +
             "JOIN p.employee e " +
             "JOIN p.activityId a " +
             "WHERE (:activityName IS NULL OR a.activityName LIKE %:activityName%) " +
             "AND (:firstName IS NULL OR e.firstName LIKE %:firstName%) " +
             "AND (:lastName IS NULL OR e.lastName LIKE %:lastName%) " +
-            "AND (:employeeId IS NULL OR e.id = :employeeId)" +
-            "AND p.approvalStatus = 'pending'")
+            "AND (:employeeId IS NULL OR e.id = :employeeId) " +
+            "AND (COALESCE(:approvalStatus, 'pending') = p.approvalStatus)")
     Page<ParticipationDetailsFetchForPendingApprovalDto> searchParticipation(
-            String activityName, String firstName, String lastName, Integer employeeId, Pageable pageable);
+            String activityName, String firstName, String lastName, Integer employeeId, String approvalStatus, Pageable pageable);
+
 }
