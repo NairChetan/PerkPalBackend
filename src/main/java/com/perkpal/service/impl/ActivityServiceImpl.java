@@ -152,6 +152,8 @@ public class ActivityServiceImpl implements ActivityService {
         // Update the activity fields
         activity.setDescription(activityUpdateForAdminDto.getDescription());
         activity.setWeightagePerHour(activityUpdateForAdminDto.getWeightagePerHour());
+        activity.setActivityName(activityUpdateForAdminDto.getActivityName());
+        activity.setUpdatedBy(activityUpdateForAdminDto.getUpdatedBy());
 
         // Save the updated activity
         Activity updatedActivity = activityRepository.save(activity);
