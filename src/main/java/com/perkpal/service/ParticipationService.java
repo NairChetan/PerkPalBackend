@@ -33,4 +33,8 @@ public interface ParticipationService {
 
     List<PointsAccumulatedPerMonthDto> getApprovedPointsPerMonthForCurrentYear(Long employeeId);
     Participation updateParticipation(Long id, ParticipationPutForUserLogDto participationPutForUserLogDto);
+
+    PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> searchParticipations(
+            String activityName, String firstName, String lastName, Integer employeeId,
+            int pageNumber, int pageSize, String sortBy, String sortDir);
 }

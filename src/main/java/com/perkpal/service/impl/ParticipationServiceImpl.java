@@ -189,6 +189,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         participation.setDuration(participationPostDto.getDuration());
         participation.setCreatedBy(participationPostDto.getCreatedBy());
         participation.setProofUrl(participationPostDto.getProofUrl());
+        participation.setParticipationDate(participationPostDto.getParticipationDate());
         participation.setEmployee(employee);
         // Save the participation record
         participationRepository.save(participation);
@@ -210,7 +211,13 @@ public class ParticipationServiceImpl implements ParticipationService {
     public ParticipationApprovalStatusRemarksPostDto updateApprovalStatusAndRemark(Long id, ParticipationApprovalStatusRemarksPostDto participationApprovalStatusRemarksPostDto) {
         Participation participation = participationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Participation", "id", id));
-        mapper.map(participationApprovalStatusRemarksPostDto, participation);
+
+        // Manually update only specific fields
+        participation.setApprovalStatus(participationApprovalStatusRemarksPostDto.getApprovalStatus());
+        participation.setRemarks(participationApprovalStatusRemarksPostDto.getRemarks());
+        participation.setApprovalDate(participationApprovalStatusRemarksPostDto.getApprovalDate());
+
+        // Save and return the updated entity
         Participation updatedParticipation = participationRepository.save(participation);
         return mapper.map(updatedParticipation, ParticipationApprovalStatusRemarksPostDto.class);
     }
@@ -230,6 +237,18 @@ public class ParticipationServiceImpl implements ParticipationService {
 
         // Save the updated entity
         return participationRepository.save(participation);
+    }
+
+    @Override
+    public PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> searchParticipations(
+            String activityName, String firstName, String lastName, Integer employeeId,
+            int pageNumber, int pageSize, String sortBy, String sortDir) {
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.fromString(sortDir), sortBy));
+        Page<ParticipationDetailsFetchForPendingApprovalDto> pageResult = participationRepository.searchParticipation(
+                activityName, firstName, lastName, employeeId, pageable);
+
+        return new PaginatedResponse<>(pageResult.getContent(), pageResult.getTotalPages(), pageResult.getTotalElements(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @Override
