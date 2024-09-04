@@ -57,8 +57,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
      * @return A list of {@link EmployeeActivitySummaryDto} objects containing the summary of employees with their points.
      */
     @Query("SELECT e.id AS employeeId, e.firstName, e.lastName, e.duId.departmentName AS duDepartmentName, e.clubId.clubName AS clubName, \n" +
-            "       SUM((p.duration / 60.0) * a.weightagePerHour) AS totalWeightedDuration, \n" +
-            "       e.photoUrl, p.id AS participationId, a.activityName, p.duration, p.remarks, p.participationDate, p.approvalDate, \n" +
+            " p.id AS participationId, a.activityName, p.duration, p.remarks, p.participationDate, p.approvalDate, \n" +
             "       p.description, p.proofUrl\n" +
             "FROM Employee e\n" +
             "JOIN e.participation p\n" +
@@ -68,7 +67,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "AND a.activityName = :activityName\n" +
             "GROUP BY e.id, e.firstName, e.lastName, e.duId.departmentName, e.clubId.clubName, e.photoUrl, p.id, a.activityName, \n" +
             "         p.duration, p.remarks, p.participationDate, p.approvalDate, p.description, p.proofUrl\n" +
-            "ORDER BY SUM((p.duration / 60.0) * a.weightagePerHour) DESC")
+            "ORDER BY employeeId ")
     List<Object[]> findEmployeeParticipationDetailsByActivityAndDateRange(
             @Param("initialDate") Timestamp initialDate,
             @Param("endDate") Timestamp endDate,
