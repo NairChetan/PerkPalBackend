@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class ParticipationDetailsFetchForPendingApprovalDto {
     private Long id;
     private String employeeFirstName;
@@ -19,4 +20,8 @@ public class ParticipationDetailsFetchForPendingApprovalDto {
     private Timestamp participationDate;
     private int duration;
     private String description;
+    private String proofUrl;
 }
+
+
+

@@ -114,17 +114,18 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
             "ORDER BY MONTH(p.participationDate)")
     List<PointsAccumulatedPerMonthDto> findApprovedPointsPerMonthForCurrentYear(Long employeeId);
 
-    @Query("SELECT new com.perkpal.dto.ParticipationDetailsFetchForPendingApprovalDto(p.id, e.firstName, e.lastName, e.id, a.activityName, a.categoryId.categoryName, p.participationDate, p.duration, p.description) " +
+    @Query("SELECT new com.perkpal.dto.ParticipationDetailsFetchForPendingApprovalDto(p.id, e.firstName, e.lastName, e.id, a.activityName, a.categoryId.categoryName, p.participationDate, p.duration, p.description, p.proofUrl) " +
             "FROM Participation p " +
             "JOIN p.employee e " +
             "JOIN p.activityId a " +
             "WHERE (:activityName IS NULL OR a.activityName LIKE %:activityName%) " +
             "AND (:firstName IS NULL OR e.firstName LIKE %:firstName%) " +
             "AND (:lastName IS NULL OR e.lastName LIKE %:lastName%) " +
-            "AND (:employeeId IS NULL OR e.id = :employeeId)" +
+            "AND (:employeeId IS NULL OR e.id = :employeeId) " +
             "AND p.approvalStatus = 'pending'")
     Page<ParticipationDetailsFetchForPendingApprovalDto> searchParticipation(
             String activityName, String firstName, String lastName, Integer employeeId, Pageable pageable);
+
 }
 
 
