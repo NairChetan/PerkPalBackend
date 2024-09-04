@@ -211,7 +211,13 @@ public class ParticipationServiceImpl implements ParticipationService {
     public ParticipationApprovalStatusRemarksPostDto updateApprovalStatusAndRemark(Long id, ParticipationApprovalStatusRemarksPostDto participationApprovalStatusRemarksPostDto) {
         Participation participation = participationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Participation", "id", id));
-        mapper.map(participationApprovalStatusRemarksPostDto, participation);
+
+        // Manually update only specific fields
+        participation.setApprovalStatus(participationApprovalStatusRemarksPostDto.getApprovalStatus());
+        participation.setRemarks(participationApprovalStatusRemarksPostDto.getRemarks());
+        participation.setApprovalDate(participationApprovalStatusRemarksPostDto.getApprovalDate());
+
+        // Save and return the updated entity
         Participation updatedParticipation = participationRepository.save(participation);
         return mapper.map(updatedParticipation, ParticipationApprovalStatusRemarksPostDto.class);
     }
