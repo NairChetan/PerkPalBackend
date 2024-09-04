@@ -1,5 +1,6 @@
 package com.perkpal.controller;
 
+import com.perkpal.dto.EmployeeActivitySummaryDto;
 import com.perkpal.dto.EmployeeDto;
 import com.perkpal.dto.EmployeeUpdatePointsDto;
 import com.perkpal.entity.Employee;
@@ -98,4 +99,8 @@ class EmployeeControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(employeeService, times(1)).updateEmployeePoints(id, updatePointsDto);
     }
+
+    
+
+
 }

@@ -123,4 +123,6 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
             "AND p.approvalStatus = 'pending'")
     Page<ParticipationDetailsFetchForPendingApprovalDto> searchParticipation(
             String activityName, String firstName, String lastName, Integer employeeId, Pageable pageable);
+
+
 }
