@@ -13,7 +13,5 @@ public class EmployeeParticipationDetailsDto {
     private String lastName;
     private String duDepartmentName;
     private String clubName;
-    private Double totalPoints;
-    private String photoUrl;
     private List<ParticipationDetailDto> participations;
 }
