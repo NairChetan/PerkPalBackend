@@ -7,4 +7,6 @@ public class ActivityUpdateForAdminDto {
 
     private String description;
     private int weightagePerHour;
+    private String activityName;
+    private Long updatedBy;
 }
