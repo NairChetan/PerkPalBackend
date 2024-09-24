@@ -120,8 +120,10 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
             "AND (:firstName IS NULL OR e.firstName LIKE %:firstName%) " +
             "AND (:lastName IS NULL OR e.lastName LIKE %:lastName%) " +
             "AND (:employeeId IS NULL OR e.id = :employeeId) " +
+            "AND (:participationDate IS NULL OR p.participationDate = :participationDate) " +
             "AND (COALESCE(:approvalStatus, 'pending') = p.approvalStatus)")
     Page<ParticipationDetailsFetchForPendingApprovalDto> searchParticipation(
-            String activityName, String firstName, String lastName, Integer employeeId, String approvalStatus, Pageable pageable);
+            String activityName, String firstName, String lastName, Integer employeeId, String approvalStatus, Timestamp participationDate, Pageable pageable);
+
 
 }
