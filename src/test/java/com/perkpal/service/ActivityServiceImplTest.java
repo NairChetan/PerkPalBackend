@@ -16,13 +16,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
-import java.util.List;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ActivityServiceImplTest {
 
@@ -95,6 +96,7 @@ public class ActivityServiceImplTest {
         // Then
         assertEquals(dtoList, result);
     }
+
     @Test
     void givenValidActivityPostDto_whenCreateActivity_thenReturnActivityPostDto() {
         // Given
@@ -158,6 +160,7 @@ public class ActivityServiceImplTest {
         // When & Then
         assertThrows(ResourceNotFoundException.class, () -> activityService.createActivity(activityPostDto));
     }
+
     @Test
     void givenValidActivityCateogryPostDto_whenCreateActivityWithCategory_thenReturnActivityCateogryPostDto() {
         // Given
@@ -294,5 +297,6 @@ public class ActivityServiceImplTest {
         assertEquals(new ArrayList<>(), result);
     }
 }
+
 
 

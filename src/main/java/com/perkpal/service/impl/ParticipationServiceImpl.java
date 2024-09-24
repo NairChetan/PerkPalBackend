@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -240,18 +241,6 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
-    public PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> searchParticipations(
-            String activityName, String firstName, String lastName, Integer employeeId, String approvalStatus,
-            int pageNumber, int pageSize, String sortBy, String sortDir) {
-
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.fromString(sortDir), sortBy));
-        Page<ParticipationDetailsFetchForPendingApprovalDto> pageResult = participationRepository.searchParticipation(
-                activityName, firstName, lastName, employeeId, approvalStatus, pageable);
-
-        return new PaginatedResponse<>(pageResult.getContent(), pageResult.getTotalPages(), pageResult.getTotalElements(), pageResult.getSize(), pageResult.getNumber());
-    }
-
-    @Override
     /**
      * Retrieves user logins by date and employee ID.
      *
@@ -268,6 +257,26 @@ public class ParticipationServiceImpl implements ParticipationService {
                 .map(participation -> mapper.map(participation, ParticipationGetForUserLogDto.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> searchParticipations(
+            String activityName, String firstName, String lastName, Integer employeeId, String approvalStatus, String participationDateStr,
+            int pageNumber, int pageSize, String sortBy, String sortDir) {
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.fromString(sortDir), sortBy));
+
+        // Convert the date string (yyyy-MM-dd) to Timestamp, setting time to 00:00:00
+        Timestamp participationDate = null;
+        if (participationDateStr != null && !participationDateStr.isEmpty()) {
+            participationDate = Timestamp.valueOf(participationDateStr + " 05:30:00");
+        }
+
+        Page<ParticipationDetailsFetchForPendingApprovalDto> pageResult = participationRepository.searchParticipation(
+                activityName, firstName, lastName, employeeId, approvalStatus, participationDate, pageable);
+
+        return new PaginatedResponse<>(pageResult.getContent(), pageResult.getTotalPages(), pageResult.getTotalElements(), pageResult.getSize(), pageResult.getNumber());
+    }
+
 
     @Override
     /**
