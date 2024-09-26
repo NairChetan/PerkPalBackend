@@ -35,6 +35,6 @@ public interface ParticipationService {
     Participation updateParticipation(Long id, ParticipationPutForUserLogDto participationPutForUserLogDto);
 
     PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> searchParticipations(
-            String activityName, String firstName, String lastName, Integer employeeId, String approvalStatus, String participationDate,
+            String activityName, String firstName, String lastName, Integer employeeId, String approvalStatus, String participationDate, String approvalDate,
             int pageNumber, int pageSize, String sortBy, String sortDir);
 }

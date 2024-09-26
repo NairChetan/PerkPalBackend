@@ -21,4 +21,5 @@ public class ParticipationDetailsFetchForPendingApprovalDto {
     private int duration;
     private String description;
     private String proofUrl;
+    private String remarks;
 }

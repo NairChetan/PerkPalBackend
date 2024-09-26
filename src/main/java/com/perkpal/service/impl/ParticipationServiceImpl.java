@@ -224,7 +224,6 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
 
-
     @Override
     public Participation updateParticipation(Long id, ParticipationPutForUserLogDto participationPutForUserLogDto) {
         // Find the existing Participation entry by ID
@@ -260,22 +259,34 @@ public class ParticipationServiceImpl implements ParticipationService {
 
     @Override
     public PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> searchParticipations(
-            String activityName, String firstName, String lastName, Integer employeeId, String approvalStatus, String participationDateStr,
-            int pageNumber, int pageSize, String sortBy, String sortDir) {
+            String activityName, String firstName, String lastName, Integer employeeId, String approvalStatus,
+            String participationDateStr, String approvalDateStr, int pageNumber, int pageSize, String sortBy, String sortDir) {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.fromString(sortDir), sortBy));
 
-        // Convert the date string (yyyy-MM-dd) to Timestamp, setting time to 00:00:00
-        Timestamp participationDate = null;
+        // Convert participationDateStr to Timestamp
+        Timestamp participationDateStart = null;
+        Timestamp participationDateEnd = null;
         if (participationDateStr != null && !participationDateStr.isEmpty()) {
-            participationDate = Timestamp.valueOf(participationDateStr + " 05:30:00");
+            participationDateStart = Timestamp.valueOf(participationDateStr + " 00:00:00");
+            participationDateEnd = Timestamp.valueOf(participationDateStr + " 23:59:59");
+        }
+
+        // Handle approvalDate and create start and end of the day
+        Timestamp approvalDateStart = null;
+        Timestamp approvalDateEnd = null;
+        if (approvalDateStr != null && !approvalDateStr.isEmpty()) {
+            // Parse the date from the string
+            approvalDateStart = Timestamp.valueOf(approvalDateStr + " 00:00:00"); // Start of the day
+            approvalDateEnd = Timestamp.valueOf(approvalDateStr + " 23:59:59"); // End of the day
         }
 
         Page<ParticipationDetailsFetchForPendingApprovalDto> pageResult = participationRepository.searchParticipation(
-                activityName, firstName, lastName, employeeId, approvalStatus, participationDate, pageable);
+                activityName, firstName, lastName, employeeId, approvalStatus, participationDateStart,participationDateEnd, approvalDateStart, approvalDateEnd, pageable);
 
         return new PaginatedResponse<>(pageResult.getContent(), pageResult.getTotalPages(), pageResult.getTotalElements(), pageResult.getSize(), pageResult.getNumber());
     }
+
 
 
     @Override

@@ -260,13 +260,14 @@ public class ParticipationController {
             @RequestParam(value = "employeeId", required = false) Integer employeeId,
             @RequestParam(value = "approvalStatus", defaultValue = "pending", required = false) String approvalStatus,
             @RequestParam(value = "participationDate", defaultValue = "", required = false) String participationDateStr,
+            @RequestParam(value = "approvalDate", defaultValue = "", required = false) String approvalDateStr,
             @RequestParam(value = PAGE_NUMBER, defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
             @RequestParam(value = PAGE_SIZE, defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = SORT_BY, defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
             @RequestParam(value = SORT_DIRECTION, defaultValue = DEFAULT_SORT_DIRECTION, required = false) String sortDir
     ) {
         PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> paginatedResponse =
-                participationService.searchParticipations(activityName, firstName, lastName, employeeId, approvalStatus, participationDateStr, pageNumber, pageSize, sortBy, sortDir);
+                participationService.searchParticipations(activityName, firstName, lastName, employeeId, approvalStatus, participationDateStr,approvalDateStr, pageNumber, pageSize, sortBy, sortDir);
 
         return ResponseHandler.responseBuilder("Participation search successful", HttpStatus.OK, paginatedResponse);
     }
