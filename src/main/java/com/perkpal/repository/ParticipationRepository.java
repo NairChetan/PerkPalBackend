@@ -112,7 +112,7 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
             "ORDER BY MONTH(p.participationDate)")
     List<PointsAccumulatedPerMonthDto> findApprovedPointsPerMonthForCurrentYear(Long employeeId);
 
-    @Query("SELECT new com.perkpal.dto.ParticipationDetailsFetchForPendingApprovalDto(p.id, e.firstName, e.lastName, e.id, a.activityName, a.categoryId.categoryName, p.participationDate, p.approvalDate, p.duration, p.description, p.proofUrl) " +
+    @Query("SELECT new com.perkpal.dto.ParticipationDetailsFetchForPendingApprovalDto(p.id, e.firstName, e.lastName, e.id, a.activityName, a.categoryId.categoryName, p.participationDate, p.approvalDate, p.duration, p.description, p.proofUrl, p.remarks) " +
             "FROM Participation p " +
             "JOIN p.employee e " +
             "JOIN p.activityId a " +
@@ -120,10 +120,14 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
             "AND (:firstName IS NULL OR e.firstName LIKE %:firstName%) " +
             "AND (:lastName IS NULL OR e.lastName LIKE %:lastName%) " +
             "AND (:employeeId IS NULL OR e.id = :employeeId) " +
-            "AND (:participationDate IS NULL OR p.participationDate = :participationDate) " +
+            "AND (:participationDateStart IS NULL OR p.participationDate >= :participationDateStart) " +
+            "AND (:participationDateEnd IS NULL OR p.participationDate <= :participationDateEnd) " +
+            "AND (:approvalDateStart IS NULL OR p.approvalDate >= :approvalDateStart) " +
+            "AND (:approvalDateEnd IS NULL OR p.approvalDate < :approvalDateEnd) " +
             "AND (COALESCE(:approvalStatus, 'pending') = p.approvalStatus)")
     Page<ParticipationDetailsFetchForPendingApprovalDto> searchParticipation(
-            String activityName, String firstName, String lastName, Integer employeeId, String approvalStatus, Timestamp participationDate, Pageable pageable);
+            String activityName, String firstName, String lastName, Integer employeeId, String approvalStatus,
+            Timestamp participationDateStart,Timestamp participationDateEnd, Timestamp approvalDateStart, Timestamp approvalDateEnd, Pageable pageable);
 
 
 }
