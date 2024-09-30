@@ -4,9 +4,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# Allow all JAR files in any subdirectory of target
-!**/target/*.jar
-
 ### STS ###
 .apt_generated
 .classpath
