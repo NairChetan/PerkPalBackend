@@ -223,7 +223,12 @@ public class ParticipationServiceImpl implements ParticipationService {
         return mapper.map(updatedParticipation, ParticipationApprovalStatusRemarksPostDto.class);
     }
 
-
+    /**
+     *
+     * @param id
+     * @param participationPutForUserLogDto
+     * @return
+     */
     @Override
     public Participation updateParticipation(Long id, ParticipationPutForUserLogDto participationPutForUserLogDto) {
         // Find the existing Participation entry by ID
