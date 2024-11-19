@@ -35,10 +35,10 @@ public class Participation extends BaseEntity {
     @Column(name = "remarks")
     private String remarks;
 
-    @Column(name = "participation_date", nullable = false)
+    @Column(name = "participation_date", nullable = false, columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Timestamp participationDate;
 
-    @Column(name = "approval_date")
+    @Column(name = "approval_date", columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Timestamp approvalDate;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties("participationApproved")

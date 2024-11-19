@@ -10,6 +10,8 @@ import com.perkpal.repository.EmployeeRepository;
 import com.perkpal.repository.ParticipationRepository;
 import com.perkpal.service.ParticipationService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +29,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class ParticipationServiceImpl implements ParticipationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ParticipationServiceImpl.class);
+
 
     @Autowired
     private ParticipationRepository participationRepository;
@@ -263,6 +268,9 @@ public class ParticipationServiceImpl implements ParticipationService {
             String participationDateStr, String approvalDateStr, int pageNumber, int pageSize, String sortBy, String sortDir) {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.fromString(sortDir), sortBy));
+        logger.debug("approvalStatus: {}", approvalStatus);
+        logger.debug("participationDateStr: {}", participationDateStr);
+        logger.debug("approvalDateStr: {}", approvalDateStr);
 
         // Convert participationDateStr to Timestamp
         Timestamp participationDateStart = null;
@@ -271,6 +279,8 @@ public class ParticipationServiceImpl implements ParticipationService {
             participationDateStart = Timestamp.valueOf(participationDateStr + " 00:00:00");
             participationDateEnd = Timestamp.valueOf(participationDateStr + " 23:59:59");
         }
+        logger.debug("participationDateStart: {}", participationDateStart);
+        logger.debug("participationDateEnd: {}", participationDateEnd);
 
         // Handle approvalDate and create start and end of the day
         Timestamp approvalDateStart = null;
@@ -278,15 +288,16 @@ public class ParticipationServiceImpl implements ParticipationService {
         if (approvalDateStr != null && !approvalDateStr.isEmpty()) {
             // Parse the date from the string
             approvalDateStart = Timestamp.valueOf(approvalDateStr + " 00:00:00"); // Start of the day
-            approvalDateEnd = Timestamp.valueOf(approvalDateStr + " 23:59:59"); // End of the day
+            approvalDateEnd = Timestamp.valueOf(approvalDateStr + " 00:00:00"); // End of the day
         }
+        logger.debug("approvalDateStart: {}", approvalDateStart);
+        logger.debug("approvalDateEnd: {}", approvalDateEnd);
 
         Page<ParticipationDetailsFetchForPendingApprovalDto> pageResult = participationRepository.searchParticipation(
-                activityName, firstName, lastName, employeeId, approvalStatus, participationDateStart,participationDateEnd, approvalDateStart, approvalDateEnd, pageable);
+                activityName, firstName, lastName, employeeId, participationDateStart, participationDateEnd, approvalDateStart, approvalDateEnd, approvalStatus, pageable);
 
         return new PaginatedResponse<>(pageResult.getContent(), pageResult.getTotalPages(), pageResult.getTotalElements(), pageResult.getSize(), pageResult.getNumber());
     }
-
 
 
     @Override
