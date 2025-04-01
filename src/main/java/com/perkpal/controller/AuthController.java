@@ -20,7 +20,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping(value = {"/login", "/signin"})
+    @PostMapping(value = {"/login"})
     public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDto loginDto) {
         String token = authService.login(loginDto);
         Employee employee = authService.loadEmployeeByEmail(loginDto.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Employee not found with email: "+loginDto.getEmail()));

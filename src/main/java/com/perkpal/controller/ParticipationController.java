@@ -266,6 +266,10 @@ public class ParticipationController {
             @RequestParam(value = SORT_BY, defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
             @RequestParam(value = SORT_DIRECTION, defaultValue = DEFAULT_SORT_DIRECTION, required = false) String sortDir
     ) {
+        System.out.print(approvalDateStr);
+        System.out.println(participationDateStr);
+        System.out.println(approvalStatus);
+
         PaginatedResponse<ParticipationDetailsFetchForPendingApprovalDto> paginatedResponse =
                 participationService.searchParticipations(activityName, firstName, lastName, employeeId, approvalStatus, participationDateStr,approvalDateStr, pageNumber, pageSize, sortBy, sortDir);
 
